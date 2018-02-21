@@ -66,7 +66,7 @@ size_test=len(input_texts)-size_train
 
 #input_texts,target_texts: list of phrases
 #input_token_index: key-values of char
-#encoder_input_data:3dimension, d1=phrase,d2=char index in phrase,d3=key of char
+#encoder_input_data:3dimension, d1=phrase,d2=char index in phrase,d3=index of list of candidate chars
 print(input_texts[0:2])
 print(target_texts[0:2])
 
