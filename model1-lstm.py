@@ -17,7 +17,7 @@ num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
 
 import os
-os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1")
+os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1/ift6285-tp1")
 # os.chdir("/Users/fanxiao/Google Drive/UdeM/IFT6135 Representation Learning/homework1/programming part ")
 print(os.getcwd())
 
@@ -159,8 +159,16 @@ model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
           batch_size=batch_size,
           epochs=epochs,
           validation_split=0.2)
+
 # Save model
-# model.save('s2s.h5')
+# from keras.models import load_model
+# model.save('model1-lstm-4016samples-100epochs.h5')
+# model.save('model1-lstm-4016samples-100epochs.h5')
+# model = load_model('my_model.h5')
+
+# model.save_weights('my_model_weights.h5')
+# model.load_weights('my_model_weights.h5')
+
 
 #%%
 # Next: inference mode (sampling).
