@@ -27,6 +27,7 @@ wheels/
 data/
 test/
 output*/
+backup/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
