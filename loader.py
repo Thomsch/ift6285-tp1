@@ -5,6 +5,7 @@ import glob
 def load(folder, number_of_files):
     """
     Loads the sentences contained in the first n zipped files of a folder.
+    The final point of the sentence is remove and the sentences are transformed into lowercase.
     :param folder: the folder to load the data from.
     :param number_of_files: the number of files to load.
     :return: a tuple containing (the list of lemmatized sentences, the list of original sentences)
