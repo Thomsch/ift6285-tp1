@@ -2,12 +2,13 @@ import gzip
 import glob
 
 
-def load(folder, number_of_files):
+def load(folder, number_of_files, verbose=False):
     """
     Loads the sentences contained in the first n zipped files of a folder.
     The final point of the sentence is remove and the sentences are transformed into lowercase.
     :param folder: the folder to load the data from.
     :param number_of_files: the number of files to load.
+    :param verbose: True if the method should print execution details. By default False.
     :return: a tuple containing (the list of lemmatized sentences, the list of original sentences)
     """
     files = list_files(folder, number_of_files)
@@ -15,7 +16,8 @@ def load(folder, number_of_files):
     lemmatized_sentences = []
     original_sentences = []
     for zipped_file in files:
-        print("Parsing " + zipped_file)
+        if verbose:
+            print("Parsing " + zipped_file)
         file = unzip(zipped_file)
         (lemmas, originals) = parse(file)
         original_sentences += originals
