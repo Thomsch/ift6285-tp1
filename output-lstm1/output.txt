@@ -1,3 +1,171 @@
+Number of samples: 8021
+Number of unique input tokens: 131
+Number of unique output tokens: 134
+Max sequence length for inputs: 817
+Max sequence length for outputs: 841
+size of training data: 5021
+size of test data: 3000
+
+duree d'entrainement:2.5h
+Epoch 100/100
+4016/4016 [==============================] - 89s 22ms/step - loss: 0.1670 - val_loss: 0.2806
+<keras.callbacks.History at 0x7f653b86d160>
+
+
+-------predict train data:
+-
+Input sentence: the rimatara reed warbler ( acrocephalus rimitara ) be a species of old world warbler in the acrocephalidae family . 
+Decoded sentence:  the species was been in the man the continued to the company for the community continued to the settern the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input sentence:  it be find only in french polynesium . 
+Decoded sentence:  it is found in china , india , laos , myanmar , nepal , thailand , and vietnam . 
+
+-
+Input sentence:  its natural habitat be subtropical or tropical dry forest and swamp . 
+Decoded sentence:  its natural habitats are subtropical or tropical dry forests and subtropical or tropical moist lowland forests . 
+
+-
+Input sentence:  the rodrigues warbler ( acrocephalus rodericanus ) be a species of old world warbler in the acrocephalidae family . 
+Decoded sentence:  the black has been in the state of species . 
+
+-
+Input sentence:  it be find only on a small island call rodrigues , which belong to mauritius and use to be plentiful there . 
+Decoded sentence:  it is found in china , india , laos , myanmar , nepal , thailand , and vietnam . 
+
+-
+Input sentence:  there population soon get smaller . 
+Decoded sentence:  the settlement deed the state of the settlement of the settied of the settlement of the state of the state of the state of the state of the sing state . 
+
+-
+Input sentence:  then a cyclone in 1979 reduce the population even more . 
+Decoded sentence:  the species was been in the man the continued to the company for the community continued to the settern the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input sentence:  the main threat to these bird be the destruction of vegetation for fuel or grazing , rat , and cyclone ( natural disaster ) . 
+Decoded sentence:  the band been considered the season is a species of the manda part of the mania . 
+
+-
+Input sentence:  cyclone monique in 1968 almost wipe out the entire species . 
+Decoded sentence:  this species was a settlement in the the dent in the first considered as a settlement in the the demini is a species of flowering plant in the malvaceae family . 
+
+-
+Input sentence:  its natural habitat be subtropical or tropical dry shrubland , subtropical or tropical moist shrubland , and plantation . 
+Decoded sentence:  its natural habitats are subtropical or tropical dry forests and subtropical or tropical moist lowland forests . 
+
+-
+Input sentence:  it be threaten by habitat loss . 
+Decoded sentence:  it is threatened by habitat loss . 
+
+-
+Input sentence:  galium sternerus or limestone bedstraw be a plant species of the genus galium . 
+Decoded sentence:  both has a comples of the settlement of the settlement of the settlement of the state of the state of the state of the state of the state of the settiention of the community . 
+
+-
+Input sentence:  the greater swamp warbler ( acrocephalus rufescen ) be a species of old world warbler in the acrocephalidae family . 
+Decoded sentence:  the settlement deed the state of the settlement of the settiention of the community . 
+
+-
+Input sentence:  it be find in angola , botswana , burundi , cameroon , central african republic , chad , republic of the congo , democratic republic of the congo , equatorial guinea , gabon , ghana , kenya , mali , mauritania , namibia , nigeria , rwanda , senegal , sudan , tanzania , togo , uganda , zambia , and zimbabwe . 
+Decoded sentence:  it is found in china , india , laos , myanmar , nepal , thailand , and vietnam . 
+
+-
+Input sentence:  its natural habitat be swamp . 
+Decoded sentence:  its natural habitats are subtropical or tropical dry forests and subtropical or tropical moist lowland forests . 
+
+-
+Input sentence:  the maritime , fluvial and harbour museum of rouen be a museum dedicate to the history of the port of rouen , which be one of the greatest port of france . 
+Decoded sentence:  the black has been in the state of species . 
+
+-
+Input sentence:  the museum open in 1999 , during the rouen armada , a festival of tall ship which take place every five year . 
+Decoded sentence:  the species was been in the man the continued to the company for the community continued to the settern the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input sentence:  visitor can see trawler and barge motor , a fog warning bell which be formerly located in the estuary of the risle , surface-supplied diving gear and a reproduction of the radio cabin of a 1960s ship . 
+Decoded sentence:  by the community consists the breed the season is a settle and a settle and a settle and a settle and a settle and the band 's contration . 
+
+-
+Input sentence:  the skeleton of a whale ( on loan from the natural history museum of rouen ) be exhibit in the centre of the museum . 
+Decoded sentence:  the settlement deed the state of the settlement of the settiention of the community . 
+
+-
+Input sentence:  it be a fin whale which be 7 year old when it die after ground on a beach . 
+Decoded sentence:  it is found only in malaysia . 
+
+-----predict test data:
+-
+Input test sentence:  peter brown 's review of the album black cat ( 2009 ) , state that louis be : `` the personification of easy electric blues , he bring new energy and expression to the form '' . 
+Decoded test sentence:  the band been considered the season is a species of the manda part of the mania . 
+
+-
+Input test sentence:  louis be originally a member of terminal stations , with whom he tour brazil and germany . 
+Decoded test sentence:  according to the present the the the the the the the the denisted the better states , and the band school with the company for the community continued to the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song o
+-
+Input test sentence:  he record he debut album knockin ' on heaven 's door in 1974 , which feature eric clapton and gene chandler . 
+Decoded test sentence:  he was a community continued the company for the community considered the season of the settlement of the settlement of the settied of the settlement of the settication of the community . 
+
+-
+Input test sentence:  the title song , a reggae blues crossover version of bob dylan 's `` knockin ' on heaven 's door '' be release as a single in july 1975 , a week before eric clapton release he own interpretation of louis 's arrangement , of the same song . 
+Decoded test sentence:  the settlement deed the state of the settlement of the settiention of the community . 
+
+-
+Input test sentence:  louis 's release receive attention but be over shadow by clapton 's , which feature louis 's `` someone like you '' as the b-side . 
+Decoded test sentence:  after the march secent for the continued the contri the sen of the settern the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input test sentence:  louis 's album knocking on heaven 's door eventually climb to 5 in international chart . 
+Decoded test sentence:  after the march secent for the continued the contri the sen of the settern the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input test sentence:  in 1991 the german record label discovery sound licensed and remaster he debut album . 
+Decoded test sentence:  in 1991 , the population of the settlement was around 1964 inhabitants . 
+
+-
+Input test sentence:  and the subsequent release revive interest in he music . 
+Decoded test sentence:  a secies of the man he was a settle in the film . 
+
+-
+Input test sentence:  later renew interest from japan prompt the release of he second album back from palookaville ( 1998 ) and he version of `` i shall be release '' , further establish he as a notable interpreter of bob dylan 's song . 
+Decoded test sentence:  after the march secent for the continued the contri the sen of the settern the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input test sentence:  by 2006 louis be make concert appearance in europe once more , which re-establish he in country such as italy and spain he appear on bbc radio 2 's paul jones show in december 2008 . 
+Decoded test sentence:  bounding in the settlement of the singer states in the the the child district of the community . 
+
+-
+Input test sentence:  in 2009 he release he third album black cat , a retrospective album which include new song such as the title track `` black cat '' and `` if ever i need you '' , co-written with scott english . 
+Decoded test sentence:  in 1991 , the population of the settlement was around 1964 inhabitants . 
+
+-
+Input test sentence:  in the same year he play with he band at the london launch of martin scorsese present the blues . 
+Decoded test sentence:  in the 1975 the the denter the chomated the company the community continued the band school with the company for the community continued to the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern 
+-
+Input test sentence:  on august 23 the same year he appear in london again with bobby tench , jim cregan and roger chapman . 
+Decoded test sentence:  a production of the man he was a settle in the film with the community continued to the settern the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band becom
+-
+Input test sentence:  arthur louis 's arrangement of the bob dylan song `` knockin ' on heaven 's door '' first appear on louis 's album `` knock on heaven 's door '' ( 1974 ) this song originally appear on the album knocking on heaven 's door ( 1974 ) by arthur louis and appear as one of six track feature eric clapton . 
+Decoded test sentence:  after the march secent for the continued the contri the sen of the settern the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input test sentence:  devil may care be a james bond continuation novel write by sebastian faulks . 
+Decoded test sentence:  he played all serviced the breed the state of the band become the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the
+-
+Input test sentence:  it be publish in the uk by penguin books on 28 may 2008 , the 100th anniversary of the birth of ian fleming , the creator of bond . 
+Decoded test sentence:  it is found only in malaysia . 
+
+-
+Input test sentence:  the story centre on bond 's investigation into dr julius gorner , a megalomaniac chemist with a deep-seated hatred of england . 
+Decoded test sentence:  the settlement deed the state of the settlement of the settied of the settlement of the state of the state of the state of the state of the sing state . 
+
+-
+Input test sentence:  faulks write the book in the style of fleming , and the novel carry the credit `` sebastian faulks write as ian fleming '' ; he also take the same timeframe as fleming , set the novel in 1967 , follow the event in fleming 's last novel the man with the golden gun . 
+Decoded test sentence:  after the march secent for the continued the contri the sen of the settern the state of the band become the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+-
+Input test sentence:  he ignore the influence of the other bond continuation author and the film , produce a characterisation of bond in the style of fleming 's . 
+Decoded test sentence:  he was a community continued the company for the community considered the season of the settlement of the settlement of the settied of the settlement of the state of the settles . 
+
+-
+Input test sentence:  the novel be broadly well receive by critic and go into the best-seller list by the end of the first week of sale , sell 44,093 copy in four day to become the fastest-selling fiction book after the harry potter title . 
+Decoded test sentence:  the species was been in the man the continued to the company for the community continued to the settern the state of the band become the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the band become the song of the settern the state of the ba
+
+
+---------------------------------------------------------
+
+
 size of training data: 8021
 size of test data: 6398
 Train on 6416 samples, validate on 1605 samples

@@ -17,7 +17,7 @@ num_samples = 10000  # Number of samples to train on.
 # Path to the data txt file on disk.
 
 import os
-os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1/ift6285-tp1")
+os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/ift6285-tp1")
 # os.chdir("/Users/fanxiao/Google Drive/UdeM/IFT6135 Representation Learning/homework1/programming part ")
 print(os.getcwd())
 
@@ -64,12 +64,22 @@ size_train=len(input_texts)
 loadData('data/test-2834.gz')
 size_test=len(input_texts)-size_train
 
+
+input_texts=np.array(input_texts)
+target_texts=np.array(target_texts)
+np.random.seed(456)
+indexs = np.arange(0,len(input_texts))
+np.random.shuffle(indexs)
+input_texts = input_texts[indexs[0:len(input_texts)]]
+target_texts=target_texts[indexs[0:len(input_texts)]]
+
 #input_texts,target_texts: list of phrases
 #input_token_index: key-values of char
 #encoder_input_data:3dimension, d1=phrase,d2=char index in phrase,d3=index of list of candidate chars
 print(input_texts[0:2])
 print(target_texts[0:2])
 
+#%%
 input_characters.add(' ')
 target_characters.add(' ')
 target_characters.add('\t')
