@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Mon Feb 26 2018 01:30:38 GMT-0500 (EST)
+# @last-modified Mon Feb 26 2018 02:11:26 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -269,19 +269,19 @@ dot_surf_index=states_map['.']
 max_lemm_sent=max([max([len(sent) for sent in train_lemm_tacy_sents]),max([len(sent) for sent in test_lemm_tacy_sents])])
 max_surf_sent=max([max([len(sent) for sent in train_surf_tacy_sents]),max([len(sent) for sent in test_surf_tacy_sents])])
 
-train_hmm_vectors=np.zeros((len(train_lemm_tacy_sents),max_lemm_sent),dtype=np.int16)
-train_hmm_vectors+=dot_lemm_index
+train_lemm_vectors=np.zeros((len(train_lemm_tacy_sents),max_lemm_sent),dtype=np.int16)
+train_lemm_vectors+=dot_lemm_index
 for i,sent in enumerate(train_lemm_tacy_sents):
     for j,lemm in enumerate(sent):
-        train_hmm_vectors[i,j]=observations_map[lemm.text]
+        train_lemm_vectors[i,j]=observations_map[lemm.text]
 
 # TODO: Must deal with those type who appear in the test, but not in the train.
-test_hmm_vectors=np.zeros((len(test_lemm_tacy_sents),max_lemm_sent),dtype=np.int16)
-test_hmm_vectors+=dot_lemm_index
+test_lemm_vectors=np.zeros((len(test_lemm_tacy_sents),max_lemm_sent),dtype=np.int16)
+test_lemm_vectors+=dot_lemm_index
 for i,sent in enumerate(test_lemm_tacy_sents):
     for j,lemm in enumerate(sent):
         if lemm.text in observations_map:
-            test_hmm_vectors[i,j]=observations_map[lemm.text]
+            test_lemm_vectors[i,j]=observations_map[lemm.text]
         # TODO:Must deal with those who appear in the test, but not in the train type
         # else:
         #     sample[i]=
@@ -304,10 +304,10 @@ for i,sent in enumerate(test_surf_tacy_sents):
         #     sample[i]=
 
 #%%
-print('train_hmm_vectors, len: ',len(train_hmm_vectors),'[1]:',train_hmm_vectors[1])
+print('train_hmm_vectors, len: ',len(train_lemm_vectors),'[1]:',train_lemm_vectors[1])
 print(train_lemm_tacy_sents[1])
 print(train_surf_tacy_sents[1])
-print('test_hmm_vectors, len: ',len(test_hmm_vectors),'[2]:',test_hmm_vectors[2])
+print('test_hmm_vectors, len: ',len(test_lemm_vectors),'[2]:',test_lemm_vectors[2])
 print(test_lemm_tacy_sents[2])
 print(test_surf_tacy_sents[2])
 
@@ -340,43 +340,43 @@ def decode_sents(vectors,type_list):
 '''
 Prediction
 '''
-input_seq=train_hmm_vectors[0:3]
-target_seq=train_surf_vectors[0:3]
+lemm_seqs=train_lemm_vectors[0:3]
+target_seqs=train_surf_vectors[0:3]
 target_surf_origin=train_surf_tacy_sents[0:3]
 # X : array-like, shape (n_samples, n_features)
 # logprob, output_seq = model.decode(input_seq.reshape(-1, 1), algorithm="viterbi")
-logprob, output_seq = model.decode(input_seq, algorithm="viterbi")
+logprob, predict_seqs = model.decode(lemm_seqs, algorithm="viterbi")
 #%%
-input_lemm_sents=decode_sents(input_seq,observations)
-pred_sents=decode_sents(output_seq,states)
+lemm_seq2sents=decode_sents(lemm_seqs,observations)
+pred_seq2sents=decode_sents(predict_seqs,states)
 print('predict on training data, result:')
-for s1,s2,s3 in zip(input_lemm_sents,target_surf_origin,pred_sents):
+for s1,s2,s3 in zip(lemm_seq2sents,target_surf_origin,pred_seq2sents):
     print('--')
     print(s1)
     print(s2)
     print(s3)
 
-print('Accuracy: ', accuracy(output_seq,target_seq))
+print('Accuracy: ', accuracy(predict_seqs,target_seqs))
 
 # print (logprob)
 #%%
 
-input_seq=test_hmm_vectors[0:3]
-target_seq=test_surf_vectors[0:3]
+lemm_seqs=test_lemm_vectors[0:3]
+target_seqs=test_surf_vectors[0:3]
 target_surf_origin=test_surf_tacy_sents[0:3]
 # X : array-like, shape (n_samples, n_features)
 # logprob, output_seq = model.decode(input_seq.reshape(-1, 1), algorithm="viterbi")
-logprob, output_seq = model.decode(input_seq, algorithm="viterbi")
+logprob, predict_seqs = model.decode(lemm_seqs, algorithm="viterbi")
 #%%
-input_lemm_sents=decode_sents(input_seq,observations)
-pred_sents=decode_sents(output_seq,states)
+lemm_seq2sents=decode_sents(lemm_seqs,observations)
+pred_seq2sents=decode_sents(predict_seqs,states)
 print('predict on test data, result:')
-for s1,s2,s3 in zip(input_lemm_sents,target_surf_origin,pred_sents):
+for s1,s2,s3 in zip(lemm_seq2sents,target_surf_origin,pred_seq2sents):
     print('--')
     print(s1)
     print(s2)
     print(s3)
 
-print('Accuracy: ', accuracy(output_seq,target_seq))
+print('Accuracy: ', accuracy(predict_seqs,target_seqs))
 
 
