@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Tue Feb 27 2018 10:07:05 GMT-0500 (EST)
+# @last-modified Tue Feb 27 2018 12:07:12 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -93,6 +93,8 @@ print('size of train surf 1grams bag:',len(train_surf_1grams_bag))
 #%%
 train_surf_tacy_sents=list(train_surf_tacy_doc.sents)
 train_lemm_tacy_sents=[]
+# spacy processe the sentence of lemma and surface in different way 
+# so for accorde the sentence same entre lemma and surface.
 for s in train_surf_tacy_sents:
     train_lemm_tacy_sents.append(train_lemm_tacy_doc[s.start:s.end])
 print('total sentence of train lemm:',len(train_lemm_tacy_sents))
@@ -271,6 +273,8 @@ for lemm_sent,surf_sent in zip(train_lemm_tacy_sents,train_surf_tacy_sents):
 for k,v in bigramms_lemm_surf_count_map.items():
     word_counts = Counter(v)
     bigramms_lemm_surf_map[k]=word_counts.most_common(1)[0][0]
+
+#test
 print('you be -> ',bigramms_lemm_surf_map['you be'])
 
 #%%
