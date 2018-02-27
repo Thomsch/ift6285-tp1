@@ -1,7 +1,6 @@
 # Custom
 data/
 test/
-output*/
 backup/
 .idea/
 /tests.ipynb

@@ -1,0 +1,89 @@
+Number of samples: 8021
+Number of unique input tokens: 131
+Number of unique output tokens: 134
+Max sequence length for inputs: 817
+Max sequence length for outputs: 841
+size of training data: 5021
+size of test data: 2000
+
+
+-------predict train data:
+-
+Input sentence:  he also have a brother who be a well-respected professor and glaciologist , and a sister ( now decease ) who be also a scientist and a professor . 
+Decoded sentence:  he was a september 1960 and 1998 , was deserviced as a second region and on the second red sox . 
+
+-
+Input sentence:  in 1977 environmental group present the petition to parliament carry 341,160 signature . 
+Decoded sentence:  in 1981 , the population of the post of the mountain to around 2011 in a season of the mountain to also known as the destroy records . 
+
+-
+Input sentence:  it be threaten by habitat loss . 
+Decoded sentence:  it is threatened by habitat loss . 
+
+-
+Input sentence:  abutilon eremitopetalum , commonly know as the hidden-petaled abutilon or hiddenpetal indian mallow , be a species of flowering shrub in the mallow family , malvaceae . 
+Decoded sentence:  a star the community consists of the south community of the united states , and the first community . 
+
+-
+Input sentence:  a major step toward the pennant have be take with the doyle deal . 
+Decoded sentence:  a star the community consists of the south community of the united states , and the first community . 
+
+-
+Input sentence:  vsn 's mission be to give fan , coach , and player of small college athletics a place to find out the latest information on the naia . 
+Decoded sentence:  during the season , the second red sox season in the mountain the first community , and was a settlement of the community . 
+
+-
+Input sentence:  consistent with its stated provision , the motorcycle safety foundation withdraw support of the abbreviated study , say such a study would be `` unlikely to either validate the finding of prior study or establish , to any statistical significant level , any new causative factor . 
+Decoded sentence:  on june 17 , 2007 , the campase a compress of the contral taken in 1967 and was a second warbler . 
+
+-
+Input sentence:  the boston red sox season be a season in american baseball . 
+Decoded sentence:  the company 's south korean second as a season and a community in the umerican league . 
+
+-
+Input sentence:  in lead the league in home run , rbi , and batting average , yastrzemski achieve the triple crown . 
+Decoded sentence:  in 1981 , the population of the post of the mountain to around 2011 in a season of the mountain to also known as the destroy records . 
+
+-
+Input sentence:  the ceylon durian , a large prickly fruit , be inedible and do not stink . 
+Decoded sentence:  the company 's south korean second as a season and a community in the umerican league . 
+
+-
+Input sentence:  then he be call out by the umpire immediately after for interfere with the play at first base . 
+Decoded sentence:  the second was a september 1968 , and was commissioned by the decision of the contral game . 
+
+-
+Input sentence:  out of anger the man kill she . 
+Decoded sentence:  cola ligental intend to the red sox finished the red sox finished the red sox finished the red sox finished the red sox finished the red sox . 
+
+-
+Input sentence:  the school also have a full service cafeteria that serve breakfast as well as lunch . 
+Decoded sentence:  the second warbler ( phylloscopus origines ) is a species of old world warbler in the locustellidae family . 
+
+-
+Input sentence:  it be threaten by habitat loss . 
+Decoded sentence:  it is threatened by habitat loss . 
+
+-
+Input sentence:  pentace perakensis be a species of flowering plant in the malvaceae sensu lato or tiliacea family . 
+Decoded sentence:  marchand was a separate summins and early and the destroy of the transical company . 
+
+-
+Input sentence:  the grey emutail ( dromaeocercus seebohmus ) , also know as the madagascan grassbird or feather-tailed warbler , be a species of old world warbler in the locustellidae family . 
+Decoded sentence:  the second warbler ( phylloscopus origines ) is a species of old world warbler in the locustellidae family . 
+
+-
+Input sentence:  clouscard 's graduate study in letter and philosophy under the tutelage of henri lefebvre culminate with a thesis , the be and the code ( publish 1972 ) , present to jean-paul sartre , among other , for defense . 
+Decoded sentence:  briggs was recorded at the community of the baseball completion of the community community . 
+
+-
+Input sentence:  it be approve by the fda in april 2011 . 
+Decoded sentence:  it is threatened by habitat loss . 
+
+-
+Input sentence:  in 2007 tony o'brien leave the band to be replace briefly by dave francis . 
+Decoded sentence:  in 1981 , the population of the post of the mountain to around 2011 in a season of the mountain to also known as the destroy records . 
+
+-
+Input sentence:  faulks also comment that `` some people find it perplexing but i think the way that the book have be present ... be a clever way of show that it be not my book , although , of course , it be my book '' . 
+Decoded sentence:  most lake started the bartast was a september 1960 and 1998 , when it became a season of the community . 
