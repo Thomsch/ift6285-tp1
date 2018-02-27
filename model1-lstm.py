@@ -250,7 +250,6 @@ def decode_sequence(input_seq):
     return decoded_sentence
   
 
-#%%
 '''
 Functions of Evalutate the prediction
 '''
@@ -266,28 +265,11 @@ def count_accuracy(pred_sents,target_sents):
                 count_accu+=1
     return count_accu, total
 
-#%%
-print('-------predict train data:')
-train_pred_sents=[]
-for seq_index in range(500):
-    # Take one sequence (part of the training set)
-    # for trying out decoding.
-    input_seq = encoder_input_data[seq_index: seq_index + 1]
-    decoded_sentence = decode_sequence(input_seq)
-    print('-- No. ',seq_index)
-    print('Input sentence:', input_texts[seq_index])
-    print('Decoded sentence:', decoded_sentence)
-    train_pred_sents.append(decoded_sentence)
-
-train_acc_count,count_total=count_accuracy(train_pred_sents,input_texts)
-print('Accuracy on LSTM1 predicteur, train data:', train_acc_count,'/', count_total,'=',train_acc_count/count_total)
-
 
 #%%
 print(os.getcwd())
 from keras.models import load_model
-model.load('model1-lstm-4016samples-100epochs.h5')
-
+model=load_model('output-lstm/model1-lstm-4016samples-100epochs.h5')
 
 
 #%%
@@ -307,36 +289,38 @@ train_acc_count,count_total=count_accuracy(train_pred_sents,input_texts)
 print('Accuracy on LSTM1 predicteur, train data:', train_acc_count,'/', count_total,'=',train_acc_count/count_total)
 
 
-
+#%%
 print('-----predict test data:')
 
 test_encoder_input_data = np.zeros(
-    (len(input_texts), max_encoder_seq_length, num_encoder_tokens),
+    (len(test_input_texts), max_encoder_seq_length, num_encoder_tokens),
     dtype='float32')
-# test_decoder_input_data = np.zeros(
-#     (len(input_texts), max_decoder_seq_length, num_decoder_tokens),
-#     dtype='float32')
-# test_decoder_target_data = np.zeros(
-#     (len(input_texts), max_decoder_seq_length, num_decoder_tokens),
+test_decoder_input_data = np.zeros(
+    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
     dtype='float32')
+test_decoder_target_data = np.zeros(
+    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
+    dtype='float32')
+
 
 for i, (test_input_text, test_target_text) in enumerate(zip(test_input_texts, test_target_texts)):
     for t, char in enumerate(test_input_text):
         test_encoder_input_data[i, t, input_token_index[char]] = 1.
-#     for t, char in enumerate(test_target_text):
-#         # decoder_target_data is ahead of decoder_input_data by one timestep
-#         test_decoder_input_data[i, t, target_token_index[char]] = 1.
-#         if t > 0:
-#             # decoder_target_data will be ahead by one timestep
-#             # and will not include the start character.
-#             test_decoder_target_data[i, t - 1, target_token_index[char]] = 1.
+    for t, char in enumerate(test_target_text):
+        # decoder_target_data is ahead of decoder_input_data by one timestep
+        test_decoder_input_data[i, t, target_token_index[char]] = 1.
+        if t > 0:
+            # decoder_target_data will be ahead by one timestep
+            # and will not include the start character.
+            test_decoder_target_data[i, t - 1, target_token_index[char]] = 1.
+
 
 
 test_pred_sents=[]
 for seq_index in range(500):
     # Take one sequence (part of the training set)
     # for trying out decoding.
-    input_seq = test_encoder_input_data[seq_index]
+    input_seq = test_encoder_input_data[seq_index: seq_index + 1]
     decoded_sentence = decode_sequence(input_seq)
     print('-- No. ',seq_index)
     print('Input test sentence:', test_input_texts[seq_index])
@@ -345,7 +329,6 @@ for seq_index in range(500):
 
 test_acc_count,count_total=count_accuracy(test_pred_sents,test_input_texts)
 print('Accuracy on LSTM1 predicteur, test data:', test_acc_count,'/', count_total,'=',test_acc_count/count_total)
-
 
 
 
