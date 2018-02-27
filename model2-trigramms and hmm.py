@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Tue Feb 27 2018 12:07:12 GMT-0500 (EST)
+# @last-modified Tue Feb 27 2018 13:27:24 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -274,6 +274,7 @@ for k,v in bigramms_lemm_surf_count_map.items():
     word_counts = Counter(v)
     bigramms_lemm_surf_map[k]=word_counts.most_common(1)[0][0]
 
+print('size of tri-grammes: ',len(bigramms_lemm_surf_map))
 #test
 print('you be -> ',bigramms_lemm_surf_map['you be'])
 

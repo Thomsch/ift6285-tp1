@@ -1,3 +1,7 @@
+
+size of tri-grammes:  179220
+
+
 --Model tri-gramms predicteur predict on test data:---
 -- NO. 0
 shorty s lunch be a washington , pennsylvania-based hot dog lunch counter .
