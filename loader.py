@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import gzip
 import glob
 
@@ -55,6 +57,9 @@ def parse(file):
     for line in lines:
         if line.startswith('#begin') or line.startswith('#end'):
             continue
+            
+        # delete all characteres non ascii
+        line=line.encode("ascii", errors="ignore").decode()            
 
         split = line.split()
         if len(split) != 2:
