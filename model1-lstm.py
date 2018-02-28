@@ -257,19 +257,18 @@ def count_accuracy(pred_sents,target_sents):
     count_accu=0
     total=0
     for pred_sent,target_sent in zip(pred_sents,target_sents):
-        pred_list=re.split(r"-| |\?",pred_sent)
-        # pred_list=pred_sent.split(' ')
-        for pred_token,target_token in zip(pred_list,target_sent):
+        pred_list=pred_sent.split(' ')
+        targ_list=target_sent[2:].split(' ')
+        for pred_token,target_token in zip(pred_list,targ_list):
             total+=1
-            if pred_token==target_token.text:
+            if pred_token==target_token:
                 count_accu+=1
     return count_accu, total
 
-
 #%%
-print(os.getcwd())
-from keras.models import load_model
-model=load_model('output-lstm/model1-lstm-4016samples-100epochs.h5')
+# print(os.getcwd())
+# from keras.models import load_model
+# model=load_model('output-lstm/model1-lstm-4016samples-100epochs.h5')
 
 
 #%%
@@ -323,11 +322,12 @@ for seq_index in range(500):
     input_seq = test_encoder_input_data[seq_index: seq_index + 1]
     decoded_sentence = decode_sequence(input_seq)
     print('-- No. ',seq_index)
-    print('Input test sentence:', test_input_texts[seq_index])
-    print('Decoded test sentence:', decoded_sentence)
+    print('Input test lemm sentence:', test_input_texts[seq_index])
+    print('Input test surf sentence:', test_input_texts[seq_index])
+    print('Prediction test sentence:', decoded_sentence)
     test_pred_sents.append(decoded_sentence)
 
-test_acc_count,count_total=count_accuracy(test_pred_sents,test_input_texts)
+test_acc_count,count_total=count_accuracy(test_pred_sents,test_target_texts)
 print('Accuracy on LSTM1 predicteur, test data:', test_acc_count,'/', count_total,'=',test_acc_count/count_total)
 
 
