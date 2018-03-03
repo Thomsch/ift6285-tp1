@@ -37,6 +37,6 @@ class TestMetric(unittest.TestCase):
 
     def test_accuracy_should_examine_each_sentence(self):
         reference = ["the dog walks on his 4 legs in the park", "bob looked at the stars and saw jupiter"]
-        translation = ["the dog is on his 4 leg in the stadium" "bob look at a star and saw some wood"]
+        translation = ["the dog is on his 4 leg in the stadium", "bob look at a star and saw some wood"]
 
         self.assertEqual(103/180, metric.accuracy(reference, translation))
