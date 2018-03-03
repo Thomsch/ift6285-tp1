@@ -1,5 +1,7 @@
 import nltk.translate.bleu_score as nltk
 
+WEIGHTS = (1, 0)
+
 
 def bleu_sentence(reference, translation):
     """
@@ -8,7 +10,7 @@ def bleu_sentence(reference, translation):
     :param translation: the translation sentence as a string.
     :return: The BLEU score for the sentence
     """
-    return nltk.sentence_bleu([reference.split()], translation.split())
+    return nltk.sentence_bleu([reference.split()], translation.split(), WEIGHTS)
 
 
 def bleu_corpus(references, translations):
@@ -20,4 +22,4 @@ def bleu_corpus(references, translations):
     """
     references = [[sentence.split()] for sentence in references]
     translations = [sentence.split() for sentence in translations]
-    return nltk.corpus_bleu(references, translations)
+    return nltk.corpus_bleu(references, translations, WEIGHTS)
