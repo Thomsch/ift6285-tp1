@@ -20,7 +20,7 @@ FILES_LARGE_CORPUS = 300
 x, y = loader.load("data/test")
 bleu = metric.bleu_corpus(y, x)
 accuracy = metric.accuracy(y, x)
-display_result("Entire test corpus", len(x), bleu, accuracy)
+display_result("Test corpus", len(x), bleu, accuracy)
 
 x, y = loader.load("data/train", FILES_LARGE_CORPUS)
 bleu = metric.bleu_corpus(y, x)
