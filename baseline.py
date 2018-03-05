@@ -15,12 +15,14 @@ def display_result(test_name, sentences_number, bleu_score, accuracy):
     print()
 
 
+FILES_LARGE_CORPUS = 500
+
 x, y = loader.load("data/test")
 bleu = metric.bleu_corpus(y, x)
 accuracy = metric.accuracy(y, x)
 display_result("Entire test corpus", len(x), bleu, accuracy)
 
-x, y = loader.load("data/train", 500)
+x, y = loader.load("data/train", FILES_LARGE_CORPUS)
 bleu = metric.bleu_corpus(y, x)
 accuracy = metric.accuracy(y, x)
-display_result("Training corpus - 500 files", len(x), bleu, accuracy)
+display_result("Training corpus - {} files".format(FILES_LARGE_CORPUS), len(x), bleu, accuracy)
