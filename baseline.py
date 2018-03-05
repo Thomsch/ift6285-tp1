@@ -15,7 +15,7 @@ def display_result(test_name, sentences_number, bleu_score, accuracy):
     print()
 
 
-FILES_LARGE_CORPUS = 500
+FILES_LARGE_CORPUS = 300
 
 x, y = loader.load("data/test")
 bleu = metric.bleu_corpus(y, x)
