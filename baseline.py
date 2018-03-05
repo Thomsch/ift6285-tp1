@@ -26,7 +26,3 @@ x, y = loader.load("data/train", 500)
 bleu = metric.bleu_corpus(y, x)
 accuracy = metric.accuracy(y, x)
 display_result("Training corpus - 500 files", len(x), bleu, accuracy)
-
-bleu = metric.bleu_corpus(y[:TEST_CORPUS_SIZE], x[:TEST_CORPUS_SIZE])
-accuracy = metric.accuracy(y, x)
-display_result("Training corpus - match test corpus", TEST_CORPUS_SIZE, bleu, accuracy)
