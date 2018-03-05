@@ -43,6 +43,7 @@ def list_files(folder, number_of_files=None):
     else:
         return paths[:number_of_files]
 
+
 def parse(file):
     """
     Parse a file into a tuple: (list of lemmatized sentences, list of original sentences). All the sentences
@@ -63,7 +64,7 @@ def parse(file):
             continue
             
         # delete all characteres non ascii
-        line=line.encode("ascii", errors="ignore").decode()            
+        line=line.encode("ascii", errors="ignore").decode()
 
         split = line.split()
         if len(split) != 2:
@@ -71,7 +72,7 @@ def parse(file):
 
         word, lemma = split
 
-        if lemma == '.' and word == '.':
+        if lemma == '.' and word == '.' and len(original_sentence) > 0:
             original_sentences.append(original_sentence.rstrip())
             lemmatized_sentences.append(lemmatized_sentence.rstrip())
             original_sentence = ""
