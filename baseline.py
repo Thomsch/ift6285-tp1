@@ -15,9 +15,7 @@ def display_result(test_name, sentences_number, bleu_score, accuracy):
     print()
 
 
-TEST_CORPUS_SIZE = 20
-
-x, y = loader.load("data/test", TEST_CORPUS_SIZE)
+x, y = loader.load("data/test")
 bleu = metric.bleu_corpus(y, x)
 accuracy = metric.accuracy(y, x)
 display_result("Entire test corpus", len(x), bleu, accuracy)

@@ -4,10 +4,11 @@ import gzip
 import glob
 
 
-def load(folder, number_of_files, verbose=False):
+def load(folder, number_of_files=None, verbose=False):
     """
     Loads the sentences contained in the first n zipped files of a folder.
     The final point of the sentence is remove and the sentences are transformed into lowercase.
+    If ``number_of_files`` is ``None``, then it lists all the files of the folder.
     :param folder: the folder to load the data from.
     :param number_of_files: the number of files to load.
     :param verbose: True if the method should print execution details. By default False.
@@ -28,16 +29,19 @@ def load(folder, number_of_files, verbose=False):
     return lemmatized_sentences, original_sentences
 
 
-def list_files(folder, number_of_files):
+def list_files(folder, number_of_files=None):
     """
-    Returns the path of the first n *.gz files in a folder.
+    Returns the path of .gz files in a folder.
     :param folder: The folder
-    :param number_of_files: The number of files to list
+    :param number_of_files: The number of files to list or ``None`` to list all.
     :return: The list of the files' path
     """
     paths = glob.glob(folder + "/*.gz")
-    return paths[:number_of_files]
 
+    if number_of_files is None:
+        return paths
+    else:
+        return paths[:number_of_files]
 
 def parse(file):
     """
