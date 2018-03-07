@@ -6,22 +6,12 @@ import loader
 import metric
 
 
-def display_result(test_name, bleu_score, sentences_number):
-    print(test_name)
-    print("=========================")
-    print("# sentence: {}".format(sentences_number))
-    print("BLEU score: {}".format(bleu_score))
-    print()
+FILES_LARGE_CORPUS = 300
 
+x, y = loader.load("data/test")
+accuracy = metric.accuracy(y, x)
+metric.display_result("Test corpus", len(x), accuracy)
 
-TEST_CORPUS_SIZE = 20
-x, y = loader.load("data/test", TEST_CORPUS_SIZE)
-bleu = metric.bleu_corpus(y, x)
-display_result("Entire test corpus", bleu, len(x))
-
-x, y = loader.load("data/train", 500)
-bleu = metric.bleu_corpus(y, x)
-display_result("Training corpus - 500 files", bleu, len(x))
-
-bleu = metric.bleu_corpus(y[:TEST_CORPUS_SIZE], x[:TEST_CORPUS_SIZE])
-display_result("Training corpus - match test corpus", bleu, TEST_CORPUS_SIZE)
+x, y = loader.load("data/train", FILES_LARGE_CORPUS)
+accuracy = metric.accuracy(y, x)
+metric.display_result("Training corpus - {} files".format(FILES_LARGE_CORPUS), len(x), accuracy)

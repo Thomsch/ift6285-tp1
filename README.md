@@ -9,7 +9,6 @@ Nous employons une approche avec réseau de neurons pour transformer une séquen
 Vous aurez besoin de Python 3+ et des packages suivants et de leur dépendances:
 - gzip
 - glop
-- nltk
 
 ### Structure de répertoire recommandée
 A la racine, un dossier data qui contient _dev_, _train_, _test_:
