@@ -62,3 +62,12 @@ def sentence_accuracy(reference_sentence, translated_sentence):
 
     total += abs(len(references) - len(translations))
     return correct / total
+
+
+def display_result(test_name, sentences_number, accuracy, bleu_score):
+    print(test_name)
+    print("=========================")
+    print("# sentence: {}".format(sentences_number))
+    print("Exactitude: {}".format(accuracy))
+    print("BLEU score: {}".format(bleu_score))
+    print()
