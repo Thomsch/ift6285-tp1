@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 08 2018 00:55:43 GMT-0500 (EST)
+# @last-modified Thu Mar 08 2018 04:19:49 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -457,4 +457,127 @@ print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test
 end_time=time.time()
 print('The Bi-grammes took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
 
+#%%
+'''
+# Part-of-speech tagging
+'''
+from spacy.pipeline import Tagger
+nlp2 = spacy.load('en')
+# nlp = spacy.load('en', disable=['parser', 'tagger'])
+# tagger = Tagger(nlp.vocab)
+# processed = tagger(train_surf_tacy_doc)
+# print (processed)
+#%%
+start_time=time.time()
 
+parse_pred_sents=[]
+for i,sent in enumerate( bigramms_pred_sents):
+    parsed_sent=nlp2(sent)
+    parse_pred_sent=[]
+    rule1=False
+    rule2=False
+    rule3=False
+    rule4=False
+    rule42=False
+    rule43=False
+    for j,token in enumerate( parsed_sent):
+        if token.dep_=='nsubj' and token.tag_=='NN' :#noun, singular or mass
+            rule1=True
+        if token.dep_=='nsubj' and token.tag_=='NNS' or token.dep_ =='expl':
+            rule2=True
+        # if token.pos_=='NUM':
+        #     rule3=True
+        if token.dep_=='pobj' and token.tag_=='CD' and len(token.text)==4: #1990
+            rule4=True
+        if rule4 and token.dep_ =='nsubj' and token.tag_=='NN' :
+            rule42=True
+            rule4=False
+        if rule4 and (token.dep_=='nsubj' and token.tag_=='NNS' or token.dep_ =='expl'):
+            rule43=True
+            rule4=False
+
+        if rule1 and token.pos_=='VERB':
+            rule1=False
+            if token.text=='be':
+                parse_pred_sent.append('is')
+                continue
+            if token.text=='have':
+                parse_pred_sent.append('has')
+                continue
+            if token.text==token.lemma_:
+                parse_pred_sent.append(token.text+'s')
+                continue
+
+        if rule2 and token.pos_=='VERB':
+            rule2=False
+            if token.text=='be':
+                parse_pred_sent.append('are')
+                continue
+            if token.text=='has':
+                parse_pred_sent.append('have')
+                continue
+
+        if rule3 and token.tag_=='NN':
+            rule3=False
+            if token.text==token.lemma_:
+                parse_pred_sent.append(token.text+'s')
+                continue
+
+        if rule42 and token.pos_=='VERB':
+            rule42=False
+            # print(i,j,token.text)
+            # print(test_surf_tacy_sents_raw[i])
+            if token.text in ['be','is']:
+                parse_pred_sent.append('was')
+                # print(' '.join(parse_pred_sent))
+                continue
+            # if token.text==token.lemma_ and token.text.endswith('e'):
+            #     parse_pred_sent.append(token.text+'d')
+            #     # print(' '.join(parse_pred_sent))
+            #     continue
+
+        if rule43 and token.pos_=='VERB':
+            rule43=False
+            # print(i,j,token.text)
+            # print(test_surf_tacy_sents_raw[i])
+            if token.text in ['be','are']:
+                parse_pred_sent.append('were')
+                # print(' '.join(parse_pred_sent))
+                continue
+            # if token.text==token.lemma_ and token.text.endswith('e'):
+            #     parse_pred_sent.append(token.text+'d')
+            #     # print(' '.join(parse_pred_sent))
+            #     continue
+
+
+        parse_pred_sent.append(token.text)
+    parse_pred_sents.append(' '.join(parse_pred_sent))
+    
+taux_accu=accuracy(test_surf_tacy_sents_raw, parse_pred_sents)
+print('Accuracy of Parse predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',taux_accu)
+
+end_time=time.time()
+print('The Parse took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
+
+#%%
+#test
+# parse_pred_sent=[]
+# parsed_sent=nlp2(bigramms_pred_sents[2371]) #772,123,2371
+# rule1=False
+# for j,token in enumerate( parsed_sent):
+#     print(token.text, token.pos_, token.tag_, token.dep_)
+#     if token.dep_=='nsubj' and token.tag_=='NN':
+#         rule1=True
+#     if rule1 and token.pos_=='VERB':
+#         rule1=False
+#         if token.text=='be':
+#             parse_pred_sent.append('is')
+#             continue
+#         if token.text=='have':
+#             parse_pred_sent.append('has')
+#             continue
+#         if token.text==token.lemma_:
+#             parse_pred_sent.append(token.text+'s')
+#             continue
+#     parse_pred_sent.append(token.text)
+# print(' '.join(parse_pred_sent))

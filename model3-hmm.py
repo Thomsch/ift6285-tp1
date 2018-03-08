@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 08 2018 01:07:54 GMT-0500 (EST)
+# @last-modified Thu Mar 08 2018 10:17:12 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -423,6 +423,112 @@ def decode_sent(vector,type_list):
     return ' '.join(map(lambda x: type_list[x], vector))
 
 
+#%%
+'''
+**** Model Bi-gramms predicteur ****
+'''
+'''
+get all  [lemm(t-1),lemm(t)] -> surf(t) 
+and get map of bi-gramms [lemm(t-1),lemm(t)] -> surf word , 
+in which the surface word is max count of the same pair of [lemm(t-1),lemm(t)].
+for example: if there have {[you be]->are} 3 times, and {[you be]->is} 1 times,
+then map([you be])=are.
+'''
+bigramms_lemm_surf_map={}
+bigramms_lemm_surf_count_map={}
+for lemm_sent,surf_sent in zip(train_lemm_tacy_sents,train_surf_tacy_sents):
+    for i,token in enumerate( zip(lemm_sent, surf_sent)):
+        if i==0:
+            # bigramms_lemm_surf_map[token[0].text]=token[1].text
+            if token[0].text in bigramms_lemm_surf_count_map:
+                l1=bigramms_lemm_surf_count_map[token[0].text]
+                l1.append(token[1].text)
+                # bigramms_lemm_surf_count_map[token[0].text]=l1
+            else:
+                bigramms_lemm_surf_count_map[token[0].text]=[token[1].text]
+            lemm_pre=token[0].text
+        else:
+            # if token[0].text=='be' and lemm_pre=='you':print(token[1].text)
+            # bigramms_lemm_surf_map[lemm_pre+' '+token[0].text]=token[1].text
+            if lemm_pre+' '+token[0].text in bigramms_lemm_surf_count_map:
+                l1=bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]
+                l1.append(token[1].text)
+                # bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]=l1
+            else:
+                bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]=[token[1].text]
+            lemm_pre=token[0].text
+
+for k,v in bigramms_lemm_surf_count_map.items():
+    word_counts = Counter(v)
+    bigramms_lemm_surf_map[k]=word_counts.most_common(1)[0][0]
+
+print('size of bi-grammes: ',len(bigramms_lemm_surf_map))
+#test
+print('you be -> ',bigramms_lemm_surf_map['you be'])
+
+#%%
+print('--Model Bi-gramms predicteur predict on test data:---')
+bigramms_pred_sents=[]
+count_accu=0
+for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
+    pred_sent=[]
+    for i,token in enumerate(zip(sent[0],sent[1])):
+        if i==0:
+            if token[0].text in bigramms_lemm_surf_map:
+                pred_token=bigramms_lemm_surf_map[token[0].text]
+                if pred_token==token[1].text:
+                    count_accu+=1
+                pred_sent.append(pred_token)
+            else:
+                # if can't find the pair of this lemm word,use directly this lemm word
+                pred_sent.append(token[0].text)
+                # if this not paired lemm word ==the surface word correspondant.
+                if token[0].text==token[1].text:
+                    count_accu+=1
+            lemm_pre=token[0].text
+        else:
+            if lemm_pre+' '+token[0].text in bigramms_lemm_surf_map:
+                pred_token=bigramms_lemm_surf_map[lemm_pre+' '+token[0].text]
+                if pred_token==token[1].text:
+                    count_accu+=1
+                pred_sent.append(pred_token)
+            else:
+                # if can't find the pair of this lemm word,use directly this lemm word
+                pred_sent.append(token[0].text)
+                # if this not paired lemm word ==the surface word correspondant.
+                if token[0].text==token[1].text:
+                    count_accu+=1
+            lemm_pre=token[0].text
+
+    pred_sent_text=' '.join(pred_sent)
+    # pred_sent_text=pred_sent_text.rstrip()
+    bigramms_pred_sents.append(pred_sent_text)
+    if k<=30:
+        print('-- NO.',k)
+        print(test_lemm_tacy_sents[k].text)
+        print(test_surf_tacy_sents[k].text)
+        print(pred_sent_text)
+
+# print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',count_accu/len(test_surf_tacy_doc))
+
+#%%
+'''
+Calcule accuracy of Bi-gramme model:
+'''
+raw_acc_count,raw_count_total=count_accuracy_raw(test_lemm_corpus,test_surf_corpus)
+print('Accuracy raw on test data:', raw_acc_count,'/', raw_count_total,'=',raw_acc_count/raw_count_total)
+
+test_surf_tacy_sents_raw=[sent.text for sent in test_surf_tacy_sents]
+from metric import *
+taux_accu=accuracy(test_surf_tacy_sents_raw, bigramms_pred_sents)
+print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',taux_accu)
+
+end_time=time.time()
+print('The Bi-grammes took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
+
+
+
+
 
 #%%
 '''
@@ -646,3 +752,24 @@ from metric import *
 # taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
 print('Accuracy on HMM predicteur:', hmm_acc_count,'/', count_total,'=',hmm_acc_count/count_total)
 
+end_time=time.time()
+print('The HMM took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
+
+#%%
+# Use log file to calculate accuracy
+sents_a=[]
+sents_b=[]
+with open('output-hmm/hmm-prediction.txt', 'rt') as f:
+    lines=f.readlines()
+i=0
+sents=iter(lines)
+for line in sents:
+    if line.startswith('-- No.'):
+        i+=len(next(sents))
+        sents_a.append(next(sents))
+        sents_b.append(next(sents))
+
+from metric import *
+hmm_acc=accuracy(sents_b,sents_a)
+# taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
+print('Accuracy on HMM predicteur:',hmm_acc, 'total words:',i)
