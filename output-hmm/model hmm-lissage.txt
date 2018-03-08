@@ -1,0 +1,89 @@
+-- No.  0
+shorty lunch be a .
+shorty lunch is a .
+! ! ! ! !
+-- No.  1
+a s have be own by .
+a s has been owned by .
+a ! ! ! ! ! !
+-- No.  2
+it have two location , include the .
+it has two locations , including the .
+! ! ! ! ! ! ! !
+-- No.  3
+the restaurant boast old wooden booth , , show the to pedestrian .
+the restaurant boasts old wooden booths , , showing the to pedestrians .
+the ! ! ! ! ! ! ! ! ! ! ! !
+-- No.  4
+the item be a albert and onion , .
+the item is an albert and onions , .
+the ! ! ! ! ! ! ! !
+-- No.  5
+the food be inexpensive dinner be the .
+the food is inexpensive dinner being the .
+the ! ! ! ! ! ! !
+-- No.  6
+shorty location sell hot dog a .
+shorty location sells hot dogs a .
+! ! ! ! ! ! !
+
+
+taux accuracy=0.072
+
+
+
+----------------
+
+-- No.  0
+shorty lunch be a .
+shorty lunch is a .
+. it is a .
+-- No.  1
+a s have be own by .
+a s has been owned by .
+a s have been owned by .
+-- No.  2
+it have two location , include the .
+it has two locations , including the .
+it has two locations , including the .
+-- No.  3
+the restaurant boast old wooden booth , , show the to pedestrian .
+the restaurant boasts old wooden booths , , showing the to pedestrians .
+the restaurants , old wooden bulwarks , , showing the to pedestrians .
+-- No.  4
+the item be a albert and onion , .
+the item is an albert and onions , .
+the which is a , and onions , .
+-- No.  5
+the food be inexpensive dinner be the .
+the food is inexpensive dinner being the .
+the food is . it is the .
+-- No.  6
+shorty location sell hot dog a .
+shorty location sells hot dogs a .
+. he sold hot dogs a .
+-- No.  7
+the chili be especially favor by customer .
+the chili is especially favored by customers .
+the . being especially favored resuming the .
+-- No.  8
+the recipe take hour to .
+the recipe takes hours to .
+the . taking hours to .
+-- No.  9
+american soldier serve abroad all receive shipment of from they mother .
+american soldiers serving abroad all received shipments of from their mothers .
+american soldiers serving abroad equator received a of from their mothers .
+-- No.  10
+the hot dog have change over from location in .
+the hot dogs has changed over from locations in .
+the hot dogs have changed over from . in .
+-- No.  11
+the gazette say that name command a many business only of develop .
+the gazette says that name commands a many businesses only of developing .
+the , saying that name commanded a many adorned only of develops .
+
+
+-----------
+
+Accuracy on HMM predicteur: 76 / 106 = 0.7169811320754716
