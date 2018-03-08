@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 08 2018 10:17:12 GMT-0500 (EST)
+# @last-modified Thu Mar 08 2018 10:40:58 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -757,19 +757,19 @@ print('The HMM took a total of %.3f minutes to do training and prediction.' % ((
 
 #%%
 # Use log file to calculate accuracy
-sents_a=[]
-sents_b=[]
-with open('output-hmm/hmm-prediction.txt', 'rt') as f:
-    lines=f.readlines()
-i=0
-sents=iter(lines)
-for line in sents:
-    if line.startswith('-- No.'):
-        i+=len(next(sents))
-        sents_a.append(next(sents))
-        sents_b.append(next(sents))
+# sents_a=[]
+# sents_b=[]
+# with open('output-hmm/hmm-prediction.txt', 'rt') as f:
+#     lines=f.readlines()
+# i=0
+# sents=iter(lines)
+# for line in sents:
+#     if line.startswith('-- No.'):
+#         i+=len(next(sents))
+#         sents_a.append(next(sents))
+#         sents_b.append(next(sents))
 
-from metric import *
-hmm_acc=accuracy(sents_b,sents_a)
-# taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
-print('Accuracy on HMM predicteur:',hmm_acc, 'total words:',i)
+# from metric import *
+# hmm_acc=accuracy(sents_b,sents_a)
+# # taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
+# print('Accuracy on HMM predicteur:',hmm_acc, 'total words:',i)
