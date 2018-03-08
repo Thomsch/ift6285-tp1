@@ -760,8 +760,15 @@ they receive support of local official , including the town s mayor .
 the effort to keep shorty s open in the face of pressure for developer have inspire other small business owner , include shelley s pike inn in houston , pennsylvania .
 the efforts to keep shorty s open in the face of pressure for developers has inspired other small business owners , including shelley s pike inn in houston , pennsylvania .
 the efforts to keep shorty s open in the face of pressure for developer have inspired others small businesses owner , including shelley s pike inn in houston , pennsylvania .
-Accuracy of bi-gramms predicteur on test data: 137453 / 154028 = 0.8923896953800607
-Accuracy raw on test data: 138430 / 161250 = 0.8584806201550388
+
+Accuracy raw on test data: 138452 / 161272 = 0.8584999255915472
+Accuracy of bi-gramms predicteur on test data: 137475 / 154050 = 0.896571929380624
+
+The Bi-grammes took a total of 3.118 minutes to do training and prediction.
+
+
+
+
 start_probability:  [0.00021937 0.         0.         0.         0.        ]
 max_lemm_sent: 112
 max_surf_sent: 112

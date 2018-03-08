@@ -5,7 +5,7 @@
 # model2-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Wed Mar 07 2018 15:27:23 GMT-0500 (EST)
+# @last-modified Wed Mar 07 2018 17:42:09 GMT-0500 (EST)
 # @website: https://louis-udm.github.io
 # @description 
 # # # #
@@ -63,8 +63,8 @@ def loadData2str(corpuspath):
             input_word=re.sub(pattern, '', input_word)
             target_word=re.sub(pattern, '', target_word)
 
-            input_word=re.sub('([-+/\.])', r" \1 ",input_word)
-            target_word=re.sub('([-+/\.])', r" \1 ",target_word)
+            input_word=re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ",input_word)
+            target_word=re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ",target_word)
 
             pattern = re.compile(r'\d+s')
             m1=re.search(pattern, input_word)
@@ -107,6 +107,7 @@ Get all types, all sentences of test_surface set.
 '''
 # train_lemm_tacy_doc = textacy.Doc(train_lemm_corpus, lang="en")
 # train_surf_tacy_doc = textacy.Doc(train_surf_corpus, lang="en")
+start_time=time.time()
 
 nlp = English()
 # nlp = spacy.load('en', disable=['parser', 'tagger'])
@@ -300,7 +301,7 @@ print('test of Accuracy raw:', raw_acc_count,'/', raw_count_total,'=',raw_acc_co
 '''
 # test accuracy,  accuracy of spacy's token
 '''
-def count_accuracy_spacy(pred_sents,target_sents):
+def count_accuracy_spacy_raw(pred_sents,target_sents):
     count_accu=0
     total=0
     for pred_sent,target_sent in zip(pred_sents,target_sents):
@@ -323,9 +324,10 @@ def count_accuracy_spacy(pred_sents,target_sents):
             #     print(target_sent)
     return count_accu, total
 
-spacy_acc_count,spacy_count_total=count_accuracy_spacy(train_lemm_tacy_sents,train_surf_tacy_sents)
+spacy_acc_count,spacy_count_total=count_accuracy_spacy_raw(train_lemm_tacy_sents,train_surf_tacy_sents)
 print('test of Accuracy spacy:', spacy_acc_count,'/', spacy_count_total,'=',spacy_acc_count/spacy_count_total)
 
+# deprecated, utilse metric.accuracy instead
 def count_accuracy(pred_sents,target_sents):
     count_accu=0
     total=0
@@ -438,10 +440,23 @@ for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
         print(test_surf_tacy_sents[k].text)
         print(pred_sent_text)
 
-print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',count_accu/len(test_surf_tacy_doc))
+# print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',count_accu/len(test_surf_tacy_doc))
 
+#%%
+'''
+Calcule accuracy of Bi-gramme model:
+'''
 raw_acc_count,raw_count_total=count_accuracy_raw(test_lemm_corpus,test_surf_corpus)
 print('Accuracy raw on test data:', raw_acc_count,'/', raw_count_total,'=',raw_acc_count/raw_count_total)
+
+test_surf_tacy_sents_raw=[sent.text for sent in test_surf_tacy_sents]
+from metric import *
+taux_accu=accuracy(test_surf_tacy_sents_raw, bigramms_pred_sents)
+print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',taux_accu)
+
+end_time=time.time()
+print('The Bi-grammes took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
+
 
 
 #%%
@@ -648,6 +663,7 @@ for i,lemm_seq in enumerate(test_lemm_vectors):
 
 #%%
 hmm_acc_count,count_total=count_accuracy(hmm_pred_sents,test_surf_tacy_sents)
-print('Accuracy on HMM predicteur:', hmm_acc_count,'/', count_total,'=',hmm_acc_count/count_total)
-
+from metric import *
+taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
+print('Accuracy on HMM predicteur:', hmm_acc_count,'/', count_total,'=',taux_accu)
 
