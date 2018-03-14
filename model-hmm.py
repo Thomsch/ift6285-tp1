@@ -5,7 +5,7 @@
 # model-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Wed Mar 14 2018 18:22:00 GMT-0400 (EDT)
+# @last-modified Wed Mar 14 2018 18:56:28 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
 # # # #
 
@@ -273,8 +273,7 @@ for sent in train_lemm_tacy_sents:
 #         break
 #     # if i>=740 and i<=750:
 #     #     print(i,chs[0],chs[1])
-
-# #%%
+#
 # # print(train_lemm_corpus[0:200])
 # for i,chs in enumerate(zip(train_lemm_tacy_doc.tokens,train_lemm_corpus.split(' '))):
 #     if chs[0].text!=chs[1]:
@@ -328,7 +327,7 @@ Functions of Evalutate the prediction
 '''
 
 '''
-# test accuracy, Raw accuracy
+# Test accuracy, Raw accuracy
 '''
 def count_accuracy_raw(pred_corpus,target_corpus):
     count_accu=0
@@ -393,9 +392,12 @@ def decode_sent(vector,type_list):
 #%%
 '''
 **** Model Bi-gramms predicteur ****
+
+Bi-gramm is here for comparison with HMM.
 '''
+
 '''
-get all  [lemm(t-1),lemm(t)] -> surf(t) 
+Get all  [lemm(t-1),lemm(t)] -> surf(t) 
 and get map of bi-gramms [lemm(t-1),lemm(t)] -> surf word , 
 in which the surface word is max count of the same pair of [lemm(t-1),lemm(t)].
 for example: if there have {[you be]->are} 3 times, and {[you be]->is} 1 times,

@@ -5,7 +5,7 @@
 # model-bi-gramms.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Wed Mar 14 2018 18:35:03 GMT-0400 (EDT)
+# @last-modified Wed Mar 14 2018 18:57:03 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
 # # # #
 
@@ -177,6 +177,7 @@ for sent in train_lemm_tacy_sents:
     print(sent.text)
     i+=1
     if i>10: break
+
 # test code
 # for i,chs in enumerate(zip(train_lemm_tacy_doc.tokens,train_surf_tacy_doc.tokens)):
 #     # if chs[0].text=='have' and chs[1].text=="'":
@@ -187,8 +188,7 @@ for sent in train_lemm_tacy_sents:
 #         break
 #     # if i>=740 and i<=750:
 #     #     print(i,chs[0],chs[1])
-
-# #%%
+#
 # # print(train_lemm_corpus[0:200])
 # for i,chs in enumerate(zip(train_lemm_tacy_doc.tokens,train_lemm_corpus.split(' '))):
 #     if chs[0].text!=chs[1]:
@@ -219,7 +219,6 @@ print('are be ',train_surf_lemm_map['are be'])
 # print('(rimatara reed) ',train_lemm_2grams_bag['rimatara reed'])
 print('(you be) ',train_lemm_2grams_bag['you be'])
 print('(he go) ',train_lemm_2grams_bag['he go'])
-
 print('p(be|you)=',train_lemm_2grams_bag['you be']/train_lemm_1grams_bag['you'])
 print('p(cat|a)=',train_lemm_2grams_bag['a cat']/train_lemm_1grams_bag['a'])
 print('p(am|i)=',train_surf_2grams_bag['i am']/train_surf_1grams_bag['i'])
@@ -235,7 +234,7 @@ Functions of Evalutate the prediction
 '''
 
 '''
-# test accuracy, Raw accuracy
+# Test accuracy, Raw accuracy
 '''
 def count_accuracy_raw(pred_corpus,target_corpus):
     count_accu=0
@@ -255,7 +254,7 @@ raw_acc_count,raw_count_total=count_accuracy_raw(train_lemm_corpus,train_surf_co
 print('test of Accuracy raw:', raw_acc_count,'/', raw_count_total,'=',raw_acc_count/raw_count_total)
 
 '''
-# test accuracy,  accuracy of spacy's token
+# Test accuracy,  accuracy of spacy's token
 '''
 def count_accuracy_spacy_raw(pred_sents,target_sents):
     count_accu=0
@@ -303,8 +302,9 @@ def decode_sent(vector,type_list):
 '''
 **** Model Bi-gramms predicteur ****
 '''
+
 '''
-get all  [lemm(t-1),lemm(t)] -> surf(t) 
+Get all  [lemm(t-1),lemm(t)] -> surf(t) 
 and get map of bi-gramms [lemm(t-1),lemm(t)] -> surf word , 
 in which the surface word is max count of the same pair of [lemm(t-1),lemm(t)].
 for example: if there have {[you be]->are} 3 times, and {[you be]->is} 1 times,
@@ -471,6 +471,7 @@ for i,sent in enumerate( bigramms_pred_sents):
             if token.text in ['be','is']:
                 parse_pred_sent.append('was')
                 continue
+
             # this rule is not so good:
             # if token.text==token.lemma_ and token.text.endswith('e'):
             #     parse_pred_sent.append(token.text+'d')
@@ -499,7 +500,7 @@ end_time=time.time()
 print('The Parse took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
 
 #%%
-#test code
+# test code
 # parse_pred_sent=[]
 # parsed_sent=nlp2(bigramms_pred_sents[2371]) #772,123,2371
 # rule1=False
