@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # # # #
-# model2-hmm.py
+# model-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 08 2018 10:40:58 GMT-0500 (EST)
+# @last-modified Wed Mar 14 2018 18:22:00 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
-# @description 
 # # # #
 
 #%%
@@ -32,6 +31,7 @@ from spacy.lang.en import English
 os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1/ift6285-tp1")
 print(os.getcwd())
 
+
 '''
 Load text in a string.
 '''
@@ -42,14 +42,11 @@ def loadData2str(corpuspath):
     target_phrase=[]
     input_sents=[]
     target_sents=[]
-    # for line in lines[: min(num_samples, len(lines) - 1)]:
     i=0
     for line in lines:
         if line.startswith('#begin') or line.startswith('#end'):
             continue
         line=line.encode("ascii", errors="ignore").decode()
-        # if i<5:
-        #     print(line)
         if len(line.split('\t'))==2:
             target_word, input_word = line.split('\t')
             input_word=input_word.lower().strip()
@@ -91,15 +88,17 @@ def loadData2str(corpuspath):
 
 train_input_sents,train_target_sents=loadData2str('data/train-1183.gz')
 test_input_sents,test_target_sents=loadData2str('data/test-2834.gz')
+
 #%%
-'''
-# Cut sentences:
-# surf:        2 b c d e 5 g h i .
-# lemm:        a b c d e f g h i .
-# new surf ->  2 b     e 5 g .
-# new lemm ->  a b     e f g .
-'''
 def cut_sents(surf_sents,lemm_sents):
+    '''
+    Function of Cut sentences.
+    example(every lettre represent a word):
+    surf:        2 b c d e 5 g h i .
+    lemm:        a b c d e f g h i .
+    new surf ->  2 b     e 5 g .
+    new lemm ->  a b     e f g .
+    '''
     surf_sents_cut=[]
     lemm_sents_cut=[]
     surf_cut_tokens_save=[]
@@ -111,11 +110,6 @@ def cut_sents(surf_sents,lemm_sents):
         lemm_cut_tokens={}
         surf_tokens=surf_sent.split(' ')
         lemm_tokens=lemm_sent.split(' ')
-        # if len(surf_tokens)!=len(lemm_tokens): 
-        #     print('warning:')
-        #     print(surf_sent)
-        #     print(lemm_sent)
-        #     print('-----')
         if len(surf_tokens)<4: 
             surf_cut_tokens_save.append({})
             lemm_cut_tokens_save.append({})
@@ -170,6 +164,7 @@ train_lemm_corpus=re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus=re.sub(' +', ' ', train_surf_corpus)
 test_lemm_corpus=re.sub(' +', ' ', test_lemm_corpus)
 test_surf_corpus=re.sub(' +', ' ', test_surf_corpus)
+
 #%%
 '''
 Get 2-gramms model, all types, all sentences of train_lemme set.
@@ -177,8 +172,6 @@ Get 2-gramms model, all types, all sentences of train_surface set.
 Get all types, all sentences of test_lemme set.
 Get all types, all sentences of test_surface set.
 '''
-# train_lemm_tacy_doc = textacy.Doc(train_lemm_corpus, lang="en")
-# train_surf_tacy_doc = textacy.Doc(train_surf_corpus, lang="en")
 start_time=time.time()
 
 nlp = English()
@@ -197,13 +190,6 @@ print('Tokens of test_lemm_tacy_doc: ',len(test_lemm_tacy_doc))
 print('Tokens of test_surf_tacy_doc: ',len(test_surf_tacy_doc))
 if len(test_lemm_tacy_doc)!=len(test_surf_tacy_doc):
     print('Warning: the numbre of tokens of lemme and surfaceis on test not equal !!!!!!')
-
-# #%%
-# #test
-# for i in range(30):
-#     print(doc1[1600+i])
-#     print(doc2[1600+i])
-#     print('-----')
 
 train_surf_tacy_sents=[]
 start_ind=0
@@ -245,8 +231,6 @@ if len(test_surf_tacy_sents)!=len(test_lemm_tacy_sents):
 train_lemm_tacy_doc = textacy.Doc(train_lemm_tacy_doc)
 train_surf_tacy_doc = textacy.Doc(train_surf_tacy_doc)
 
-# bag1=doc.to_bag_of_terms(ngrams=2, named_entities=True, lemmatize=True, as_strings=True)
-# bag_lemm=train_lemm_doc.to_bag_of_terms(ngrams=2, normalize='lower',weighting='freq',as_strings=True,filter_stops=False)
 train_lemm_2grams_bag=train_lemm_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of train lemm 2grams bag:',len(train_lemm_2grams_bag))
 train_lemm_1grams_bag=train_lemm_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
@@ -261,18 +245,14 @@ print('size of train surf 1grams bag:',len(train_surf_1grams_bag))
 test_lemm_tacy_doc = textacy.Doc(test_lemm_tacy_doc)
 test_surf_tacy_doc = textacy.Doc(test_surf_tacy_doc)
 
-# test_lemm_2grams_bag=test_lemm_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
-# print('size of test lemm 2grams bag:',len(test_lemm_2grams_bag))
 test_lemm_1grams_bag=test_lemm_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of test lemm 1grams bag:',len(test_lemm_1grams_bag))
 
-# test_surf_2grams_bag=test_surf_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
-# print('size of test surf 2grams bag:',len(test_surf_2grams_bag))
 test_surf_1grams_bag=test_surf_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of test surf 1grams bag:',len(test_surf_1grams_bag))
 
 #%%
-# test
+# test code:
 print(type(train_lemm_2grams_bag),len(train_lemm_2grams_bag))
 print(type(train_lemm_1grams_bag),len(train_lemm_2grams_bag))
 # print('him . ',train_lemm_2grams_bag['him .'])
@@ -283,6 +263,7 @@ for sent in train_lemm_tacy_sents:
     i+=1
     if i>10: break
 
+# # test code
 # for i,chs in enumerate(zip(train_lemm_tacy_doc.tokens,train_surf_tacy_doc.tokens)):
 #     # if chs[0].text=='have' and chs[1].text=="'":
 #     #     print(i,chs[0],chs[1])
@@ -309,23 +290,20 @@ Get all pair of surf-lemma and their count on train data set.
 pairs_list=[]
 for lemma,surf in zip(train_lemm_tacy_doc, train_surf_tacy_doc):
     pairs_list.append(surf.text.strip()+' '+lemma.text.strip())
-# print(pairs_list[0],pairs_list.count(pairs_list[0]))
-# pairs_list=np.array(pairs_list)
 train_surf_lemm_map={}
 for i,pair in enumerate(pairs_list):
     if pair not in train_surf_lemm_map:
         train_surf_lemm_map[pair]=pairs_list.count(pair)
 #%%
-#test
+#test code
 print('is be ',train_surf_lemm_map['is be'])
 # print('( ( ',train_surf_lemm_map['( ('])
 # print('. . ',train_surf_lemm_map['. .'])
 
-#test
+#test code
 # print('(rimatara reed) ',train_lemm_2grams_bag['rimatara reed'])
 print('(you be) ',train_lemm_2grams_bag['you be'])
 print('(he go) ',train_lemm_2grams_bag['he go'])
-
 print('p(be|you)=',train_lemm_2grams_bag['you be']/train_lemm_1grams_bag['you'])
 print('p(cat|a)=',train_lemm_2grams_bag['a cat']/train_lemm_1grams_bag['a'])
 print('p(am|i)=',train_surf_2grams_bag['i am']/train_surf_1grams_bag['i'])
@@ -377,28 +355,17 @@ def count_accuracy_spacy_raw(pred_sents,target_sents):
     total=0
     for pred_sent,target_sent in zip(pred_sents,target_sents):
         total+=1
-        # if pred_sent.text[0] != target_sent.text[0] and target_sent.text \
-        #     not in ['be','she','go','we','i']:
-        #     print(preword,pred_sent)
-        #     print(pretarg,target_sent)
-        #     print('-----',total)
-        # preword=pred_sent
-        # pretarg=target_sent
         for pred_token,target_token in zip(pred_sent,target_sent):
             total+=1
             if pred_token.text==target_token.text:
                 count_accu+=1
-            # if pred_token.text=='.' and target_token.text!='.':
-            # if total>239980 and total<240060:
-            # if total==240047:
-            #     print(pred_sent)
-            #     print(target_sent)
     return count_accu, total
 
 spacy_acc_count,spacy_count_total=count_accuracy_spacy_raw(train_lemm_tacy_sents,train_surf_tacy_sents)
 print('test of Accuracy spacy:', spacy_acc_count,'/', spacy_count_total,'=',spacy_acc_count/spacy_count_total)
 
-# deprecated, utilse metric.accuracy instead
+# The HMM predict slowly, this function is for when we want stop it before all sentences.
+# if not, utilse metric.accuracy instead
 def count_accuracy(pred_sents,target_sents):
     count_accu=0
     total=0
@@ -509,7 +476,6 @@ for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
         print(test_surf_tacy_sents[k].text)
         print(pred_sent_text)
 
-# print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',count_accu/len(test_surf_tacy_doc))
 
 #%%
 '''
@@ -525,7 +491,6 @@ print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test
 
 end_time=time.time()
 print('The Bi-grammes took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
-
 
 
 
@@ -579,9 +544,7 @@ print ('start_probability: ',start_probability)
 # get the count of all first type in bi-gramms:
 train_surf_first_of2grams_bag={}
 for k,v in train_surf_2grams_bag.items():
-    # if k.startswith('_'): print(k)
     if len(k.split(' '))!=2:
-        # print(k)
         continue
     type_prev,type_curr=k.split(' ')
     if type_prev not in train_surf_first_of2grams_bag:
@@ -589,24 +552,15 @@ for k,v in train_surf_2grams_bag.items():
     else:
         train_surf_first_of2grams_bag[type_prev]+=v
 
-# print('p(am|i)=',train_surf_2grams_bag['i am']/train_surf_first_type_bag['i'])
 transition_probability=np.zeros((n_states,n_states))
 for k,v in train_surf_2grams_bag.items():
     if len(k.split(' '))!=2:
-        # print(k)
         continue
     type_prev,type_curr=k.split(' ')
-    # if  transition_probabilitynp[states_map[type_prev],states_map[type_curr]]>0:
-    #     continue
     prob=train_surf_2grams_bag[k]/train_surf_first_of2grams_bag[type_prev]
-    # print('p(',type_curr,'|',type_prev,')=',prob)
     transition_probability[states_map[type_prev],states_map[type_curr]]=prob
-    # if states_map[type_prev]==3: 
-    #     print(type_prev,type_curr,prob)
-    #     print(k,v)
-    #     print(train_surf_first_type_bag[type_prev])n_states
 
-# smooth probablity:some type didn't apeare in train_surf_2grams_bag
+# probablity smooth : some type didn't apeare in train_surf_2grams_bag
 for i,prob in enumerate(transition_probability.sum(1)):
     if prob==0: 
         transition_probability[i]+=1.0/n_states
@@ -616,9 +570,8 @@ for i,prob in enumerate(transition_probability.sum(1)):
 transition_probability+=1.0/n_states
 transition_probability/=2.0
 print('transition_probability',transition_probability)
-#%%
-# print('p(be-observ|are-stat)=',train_surf_lemm_map['are be']/train_surf_1grams_bag['are'])
 
+#%%
 emission_probability=np.zeros((n_states,n_observations))
 for k,v in train_surf_lemm_map.items():
     # k=k.strip()
@@ -630,7 +583,6 @@ for k,v in train_surf_lemm_map.items():
         continue
     prob=train_surf_lemm_map[k]/train_surf_1grams_bag[type_s]
     emission_probability[states_map[type_s],observations_map[type_o]]=prob
-# print ('emission_probability: ',emission_probability[0:5,0])
 
 '''
 # Laplace smooth probablity:
@@ -668,33 +620,13 @@ for i,sent in enumerate(test_lemm_tacy_sents):
             sample[j]=observations_map[lemm.text]
     test_lemm_vectors.append(sample)
         # TODO:Must deal with those who appear in the test, but not in the train type
-        # else:
-        #     sample[i]=
 
-# train_surf_vectors=np.zeros((len(train_surf_tacy_sents),max_surf_sent),dtype=np.int16)
-# train_surf_vectors+=dot_surf_index
-# for i,sent in enumerate(train_surf_tacy_sents):
-#     for j,surf in enumerate(sent):
-#         train_surf_vectors[i,j]=states_map[surf.text]
-
-# # TODO: Must deal with those type who appear in the test, but not in the train.
-# test_surf_vectors=np.zeros((len(test_surf_tacy_sents),max_surf_sent),dtype=np.int16)
-# test_surf_vectors+=dot_surf_index
-# for i,sent in enumerate(test_surf_tacy_sents):
-#     for j,surf in enumerate(sent):
-#         if surf.text in states_map:
-#             test_surf_vectors[i,j]=states_map[surf.text]
-#         # TODO:Must deal with those who appear in the test, but not in the train type
-#         # else:
-#         #     sample[i]=
 
 #%%
 print('train_lemm_vectors, len: ',len(train_lemm_vectors),'[1]:',train_lemm_vectors[1])
 print(train_lemm_tacy_sents[1])
-# print(train_surf_tacy_sents[1])
 print('test_lemm_vectors, len: ',len(test_lemm_vectors),'[2]:',test_lemm_vectors[2])
 print(test_lemm_tacy_sents[2])
-# print(test_surf_tacy_sents[2])
 
 #%%
 '''
@@ -733,12 +665,9 @@ print('--- Model HMM predicteur predict on test data: ---')
 hmm_pred_seqs=[]
 hmm_pred_sents=[]
 for i,lemm_seq in enumerate(test_lemm_vectors):
-    # target_surf_origin=test_surf_tacy_sents[2]
-    # X : array-like, shape (n_samples, n_features)
-    # logprob, output_seq = model.decode(input_seq.reshape(-1, 1), algorithm="viterbi/map")
+    # you can chose algorithm="viterbi/map")
     logprob, predict_seq = model.decode(lemm_seq.reshape(-1, 1), algorithm="viterbi")
     hmm_pred_seqs.append(predict_seq)
-    # lemm_seq2sent=decode_sent(lemm_seq,observations)
     pred_seq2sent=decode_sent(predict_seq,states)
     hmm_pred_sents.append(pred_seq2sent)
     print('-- No. ',i)
@@ -749,7 +678,6 @@ for i,lemm_seq in enumerate(test_lemm_vectors):
 #%%
 hmm_acc_count,count_total=count_accuracy(hmm_pred_sents,test_surf_tacy_sents)
 from metric import *
-# taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
 print('Accuracy on HMM predicteur:', hmm_acc_count,'/', count_total,'=',hmm_acc_count/count_total)
 
 end_time=time.time()

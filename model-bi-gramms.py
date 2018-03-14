@@ -2,12 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # # # #
-# model2-hmm.py
+# model-bi-gramms.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 08 2018 04:19:49 GMT-0500 (EST)
+# @last-modified Wed Mar 14 2018 18:35:03 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
-# @description 
 # # # #
 
 #%%
@@ -40,25 +39,14 @@ def loadData2str(corpuspath):
         lines = f.read().split('\n')
     input_words=[]
     target_words=[]
-    # for line in lines[: min(num_samples, len(lines) - 1)]:
-    i=0
     for line in lines:
         if line.startswith('#begin') or line.startswith('#end'):
             continue
         line=line.encode("ascii", errors="ignore").decode()
-        # if i<5:
-        #     print(line)
         if len(line.split('\t'))==2:
             target_word, input_word = line.split('\t')
             input_word=input_word.lower().strip()
             target_word=target_word.lower().strip()
-            # if input_word.startswith("'") and not input_word.startswith("''"):
-            #     input_word=input_word[1:]
-            # if target_word.startswith("'") and not target_word.startswith("''"):
-            #     target_word=target_word[1:]
-            # pattern = re.compile(r'[-+]')
-            # input_word=re.sub(pattern, ' ', input_word)
-            # target_word=re.sub(pattern, ' ', target_word)
             pattern = re.compile(r'\'')
             input_word=re.sub(pattern, '', input_word)
             target_word=re.sub(pattern, '', target_word)
@@ -81,13 +69,6 @@ def loadData2str(corpuspath):
                 continue
             input_words.append(input_word)
             target_words.append(target_word)
-            i+=1
-            # if i>235230 and i<235280:
-            #     print(input_word,target_word)
-            #     print('++++++',i)
-    #         if i>=1 and i<=28:
-    #             print(input_word,'|',target_word)
-    # print('corpus tokens orignial: ',i)
     return ' '.join(input_words),' '.join(target_words)
 
 train_lemm_corpus,train_surf_corpus=loadData2str('data/train-1183.gz')
@@ -105,12 +86,10 @@ Get 2-gramms model, all types, all sentences of train_surface set.
 Get all types, all sentences of test_lemme set.
 Get all types, all sentences of test_surface set.
 '''
-# train_lemm_tacy_doc = textacy.Doc(train_lemm_corpus, lang="en")
-# train_surf_tacy_doc = textacy.Doc(train_surf_corpus, lang="en")
 start_time=time.time()
-
+ 
+# alternative for parse: nlp = spacy.load('en', disable=['parser', 'tagger'])
 nlp = English()
-# nlp = spacy.load('en', disable=['parser', 'tagger'])
 train_lemm_tacy_doc=nlp(train_lemm_corpus)
 train_surf_tacy_doc=nlp(train_surf_corpus)
 test_lemm_tacy_doc =nlp(test_lemm_corpus)
@@ -126,13 +105,7 @@ print('Tokens of test_surf_tacy_doc: ',len(test_surf_tacy_doc))
 if len(test_lemm_tacy_doc)!=len(test_surf_tacy_doc):
     print('Warning: the numbre of tokens of lemme and surfaceis on test not equal !!!!!!')
 
-# #%%
-# #test
-# for i in range(30):
-#     print(doc1[1600+i])
-#     print(doc2[1600+i])
-#     print('-----')
-
+#%%
 train_surf_tacy_sents=[]
 start_ind=0
 for token in train_surf_tacy_doc:
@@ -173,8 +146,6 @@ if len(test_surf_tacy_sents)!=len(test_lemm_tacy_sents):
 train_lemm_tacy_doc = textacy.Doc(train_lemm_tacy_doc)
 train_surf_tacy_doc = textacy.Doc(train_surf_tacy_doc)
 
-# bag1=doc.to_bag_of_terms(ngrams=2, named_entities=True, lemmatize=True, as_strings=True)
-# bag_lemm=train_lemm_doc.to_bag_of_terms(ngrams=2, normalize='lower',weighting='freq',as_strings=True,filter_stops=False)
 train_lemm_2grams_bag=train_lemm_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of train lemm 2grams bag:',len(train_lemm_2grams_bag))
 train_lemm_1grams_bag=train_lemm_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
@@ -189,18 +160,14 @@ print('size of train surf 1grams bag:',len(train_surf_1grams_bag))
 test_lemm_tacy_doc = textacy.Doc(test_lemm_tacy_doc)
 test_surf_tacy_doc = textacy.Doc(test_surf_tacy_doc)
 
-# test_lemm_2grams_bag=test_lemm_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
-# print('size of test lemm 2grams bag:',len(test_lemm_2grams_bag))
 test_lemm_1grams_bag=test_lemm_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of test lemm 1grams bag:',len(test_lemm_1grams_bag))
 
-# test_surf_2grams_bag=test_surf_tacy_doc.to_bag_of_terms(ngrams=2, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
-# print('size of test surf 2grams bag:',len(test_surf_2grams_bag))
 test_surf_1grams_bag=test_surf_tacy_doc.to_bag_of_terms(ngrams=1, normalize='lower',named_entities=False, weighting='count',as_strings=True,filter_stops=False,filter_punct=False,filter_nums=False,drop_determiners=False)
 print('size of test surf 1grams bag:',len(test_surf_1grams_bag))
 
 #%%
-# test
+# test code
 print(type(train_lemm_2grams_bag),len(train_lemm_2grams_bag))
 print(type(train_lemm_1grams_bag),len(train_lemm_2grams_bag))
 print('him . ',train_lemm_2grams_bag['him .'])
@@ -210,7 +177,7 @@ for sent in train_lemm_tacy_sents:
     print(sent.text)
     i+=1
     if i>10: break
-
+# test code
 # for i,chs in enumerate(zip(train_lemm_tacy_doc.tokens,train_surf_tacy_doc.tokens)):
 #     # if chs[0].text=='have' and chs[1].text=="'":
 #     #     print(i,chs[0],chs[1])
@@ -237,20 +204,18 @@ Get all pair of surf-lemma and their count on train data set.
 pairs_list=[]
 for lemma,surf in zip(train_lemm_tacy_doc, train_surf_tacy_doc):
     pairs_list.append(surf.text.strip()+' '+lemma.text.strip())
-# print(pairs_list[0],pairs_list.count(pairs_list[0]))
-# pairs_list=np.array(pairs_list)
 train_surf_lemm_map={}
 for i,pair in enumerate(pairs_list):
     if pair not in train_surf_lemm_map:
         train_surf_lemm_map[pair]=pairs_list.count(pair)
 
-#test
+#test code
 print('are be ',train_surf_lemm_map['are be'])
-print('( ( ',train_surf_lemm_map['( ('])
-print('. . ',train_surf_lemm_map['. .'])
+# print('( ( ',train_surf_lemm_map['( ('])
+# print('. . ',train_surf_lemm_map['. .'])
 
 #%%
-#test
+#test code
 # print('(rimatara reed) ',train_lemm_2grams_bag['rimatara reed'])
 print('(you be) ',train_lemm_2grams_bag['you be'])
 print('(he go) ',train_lemm_2grams_bag['he go'])
@@ -261,16 +226,7 @@ print('p(am|i)=',train_surf_2grams_bag['i am']/train_surf_1grams_bag['i'])
 print('p(be-o|are-s)=',train_surf_lemm_map['are be']/train_surf_1grams_bag['are'])
 print('p(.-o|.-s)=',train_surf_lemm_map['. .']/train_surf_1grams_bag['.'])
 # print('p(the|bos)=',train_surf_2grams_bag['. the'])
-# print(train_surf_1grams_bag)
 
-# i=0
-# for k,v in train_lemm_2grams_bag.items():
-#     print('(', k,') ,Prob: ',v)
-#     i+=1
-#     if i>50: break
-# bag2=doc.to_terms_list(ngrams=2, named_entities=True, lemmatize=True, as_strings=True)
-# for k in bag2:
-#     print(k)
 
 
 #%%
@@ -306,28 +262,17 @@ def count_accuracy_spacy_raw(pred_sents,target_sents):
     total=0
     for pred_sent,target_sent in zip(pred_sents,target_sents):
         total+=1
-        # if pred_sent.text[0] != target_sent.text[0] and target_sent.text \
-        #     not in ['be','she','go','we','i']:
-        #     print(preword,pred_sent)
-        #     print(pretarg,target_sent)
-        #     print('-----',total)
-        # preword=pred_sent
-        # pretarg=target_sent
         for pred_token,target_token in zip(pred_sent,target_sent):
             total+=1
             if pred_token.text==target_token.text:
                 count_accu+=1
-            # if pred_token.text=='.' and target_token.text!='.':
-            # if total>239980 and total<240060:
-            # if total==240047:
-            #     print(pred_sent)
-            #     print(target_sent)
     return count_accu, total
 
 spacy_acc_count,spacy_count_total=count_accuracy_spacy_raw(train_lemm_tacy_sents,train_surf_tacy_sents)
 print('test of Accuracy spacy:', spacy_acc_count,'/', spacy_count_total,'=',spacy_acc_count/spacy_count_total)
 
-# deprecated, utilse metric.accuracy instead
+# this function is for when we want stop it before all sentences.
+# if not, utilse metric.accuracy instead
 def count_accuracy(pred_sents,target_sents):
     count_accu=0
     total=0
@@ -370,21 +315,16 @@ bigramms_lemm_surf_count_map={}
 for lemm_sent,surf_sent in zip(train_lemm_tacy_sents,train_surf_tacy_sents):
     for i,token in enumerate( zip(lemm_sent, surf_sent)):
         if i==0:
-            # bigramms_lemm_surf_map[token[0].text]=token[1].text
             if token[0].text in bigramms_lemm_surf_count_map:
                 l1=bigramms_lemm_surf_count_map[token[0].text]
                 l1.append(token[1].text)
-                # bigramms_lemm_surf_count_map[token[0].text]=l1
             else:
                 bigramms_lemm_surf_count_map[token[0].text]=[token[1].text]
             lemm_pre=token[0].text
         else:
-            # if token[0].text=='be' and lemm_pre=='you':print(token[1].text)
-            # bigramms_lemm_surf_map[lemm_pre+' '+token[0].text]=token[1].text
             if lemm_pre+' '+token[0].text in bigramms_lemm_surf_count_map:
                 l1=bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]
                 l1.append(token[1].text)
-                # bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]=l1
             else:
                 bigramms_lemm_surf_count_map[lemm_pre+' '+token[0].text]=[token[1].text]
             lemm_pre=token[0].text
@@ -394,10 +334,14 @@ for k,v in bigramms_lemm_surf_count_map.items():
     bigramms_lemm_surf_map[k]=word_counts.most_common(1)[0][0]
 
 print('size of bi-grammes: ',len(bigramms_lemm_surf_map))
-#test
+
+#test code
 print('you be -> ',bigramms_lemm_surf_map['you be'])
 
 #%%
+'''
+Model Bi-gramms predicteur predict on test data
+'''
 print('--Model Bi-gramms predicteur predict on test data:---')
 bigramms_pred_sents=[]
 count_accu=0
@@ -413,6 +357,7 @@ for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
             else:
                 # if can't find the pair of this lemm word,use directly this lemm word
                 pred_sent.append(token[0].text)
+
                 # if this not paired lemm word ==the surface word correspondant.
                 if token[0].text==token[1].text:
                     count_accu+=1
@@ -426,6 +371,7 @@ for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
             else:
                 # if can't find the pair of this lemm word,use directly this lemm word
                 pred_sent.append(token[0].text)
+
                 # if this not paired lemm word ==the surface word correspondant.
                 if token[0].text==token[1].text:
                     count_accu+=1
@@ -440,7 +386,6 @@ for k,sent in enumerate( zip(test_lemm_tacy_sents,test_surf_tacy_sents)):
         print(test_surf_tacy_sents[k].text)
         print(pred_sent_text)
 
-# print('Accuracy of bi-gramms predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',count_accu/len(test_surf_tacy_doc))
 
 #%%
 '''
@@ -462,12 +407,9 @@ print('The Bi-grammes took a total of %.3f minutes to do training and prediction
 # Part-of-speech tagging
 '''
 from spacy.pipeline import Tagger
+# alternative for parse:nlp = spacy.load('en', disable=['parser', 'tagger']),tagger = Tagger(nlp.vocab)
 nlp2 = spacy.load('en')
-# nlp = spacy.load('en', disable=['parser', 'tagger'])
-# tagger = Tagger(nlp.vocab)
-# processed = tagger(train_surf_tacy_doc)
-# print (processed)
-#%%
+
 start_time=time.time()
 
 parse_pred_sents=[]
@@ -485,6 +427,7 @@ for i,sent in enumerate( bigramms_pred_sents):
             rule1=True
         if token.dep_=='nsubj' and token.tag_=='NNS' or token.dep_ =='expl':
             rule2=True
+        # this rule is not so good:
         # if token.pos_=='NUM':
         #     rule3=True
         if token.dep_=='pobj' and token.tag_=='CD' and len(token.text)==4: #1990
@@ -525,12 +468,10 @@ for i,sent in enumerate( bigramms_pred_sents):
 
         if rule42 and token.pos_=='VERB':
             rule42=False
-            # print(i,j,token.text)
-            # print(test_surf_tacy_sents_raw[i])
             if token.text in ['be','is']:
                 parse_pred_sent.append('was')
-                # print(' '.join(parse_pred_sent))
                 continue
+            # this rule is not so good:
             # if token.text==token.lemma_ and token.text.endswith('e'):
             #     parse_pred_sent.append(token.text+'d')
             #     # print(' '.join(parse_pred_sent))
@@ -538,12 +479,10 @@ for i,sent in enumerate( bigramms_pred_sents):
 
         if rule43 and token.pos_=='VERB':
             rule43=False
-            # print(i,j,token.text)
-            # print(test_surf_tacy_sents_raw[i])
             if token.text in ['be','are']:
                 parse_pred_sent.append('were')
-                # print(' '.join(parse_pred_sent))
                 continue
+            # this rule is not so good:
             # if token.text==token.lemma_ and token.text.endswith('e'):
             #     parse_pred_sent.append(token.text+'d')
             #     # print(' '.join(parse_pred_sent))
@@ -560,7 +499,7 @@ end_time=time.time()
 print('The Parse took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
 
 #%%
-#test
+#test code
 # parse_pred_sent=[]
 # parsed_sent=nlp2(bigramms_pred_sents[2371]) #772,123,2371
 # rule1=False
