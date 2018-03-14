@@ -5,7 +5,7 @@
 # model-bi-gramms.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Wed Mar 14 2018 18:57:03 GMT-0400 (EDT)
+# @last-modified Wed Mar 14 2018 19:11:45 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
 # # # #
 
@@ -494,7 +494,7 @@ for i,sent in enumerate( bigramms_pred_sents):
     parse_pred_sents.append(' '.join(parse_pred_sent))
     
 taux_accu=accuracy(test_surf_tacy_sents_raw, parse_pred_sents)
-print('Accuracy of Parse predicteur on test data:', count_accu,'/', len(test_surf_tacy_doc),'=',taux_accu)
+print('Accuracy of Parse predicteur on test data:',taux_accu)
 
 end_time=time.time()
 print('The Parse took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
