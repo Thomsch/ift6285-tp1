@@ -44,6 +44,10 @@ def list_files(folder, number_of_files=None):
         return paths[:number_of_files]
 
 
+def is_end_of_sentence(lemme, word):
+    return (lemme == "." and word == ".") or (lemme == "!" and word == "!") or (lemme == "?" and word == "?")
+
+
 def parse(file):
     """
     Parse a file into a tuple: (list of lemmatized sentences, list of original sentences). All the sentences
@@ -72,7 +76,7 @@ def parse(file):
 
         word, lemma = split
 
-        if lemma == '.' and word == '.' and len(original_sentence) > 0:
+        if is_end_of_sentence(lemma, word) and len(original_sentence) > 0:
             original_sentences.append(original_sentence.rstrip())
             lemmatized_sentences.append(lemmatized_sentence.rstrip())
             original_sentence = ""
