@@ -55,7 +55,7 @@ lemma_to_surface = train(lemmatized_sentences, surface_sentences)
 elapsed_time = timeit.default_timer() - start_time
 
 print("Training (using {} sentences)".format(len(lemmatized_sentences)))
-print("- Elapsed time {}".format(elapsed_time))
+print("- Elapsed time {0:.2f}s".format(elapsed_time))
 print()
 
 original_lemmatized_sentences, target_sentences = loader.load("data/test")
