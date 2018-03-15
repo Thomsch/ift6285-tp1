@@ -5,7 +5,7 @@
 # model-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Thu Mar 15 2018 12:01:46 GMT-0400 (EDT)
+# @last-modified Thu Mar 15 2018 15:55:03 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
 # # # #
 
@@ -35,7 +35,7 @@ print(os.getcwd())
 '''
 Load text in a string.
 '''
-def loadData2str(corpuspath):
+def loadData2sents(corpuspath):
     with gzip.open(corpuspath, 'rt', encoding='ISO-8859-1') as f:
         lines = f.read().split('\n')
     input_phrase=[]
@@ -86,8 +86,8 @@ def loadData2str(corpuspath):
             i+=1
     return input_sents,target_sents
 
-train_input_sents,train_target_sents=loadData2str('data/train-1183.gz')
-test_input_sents,test_target_sents=loadData2str('data/test-2834.gz')
+train_input_sents,train_target_sents=loadData2sents('data/train-1183.gz')
+test_input_sents,test_target_sents=loadData2sents('data/test-2834.gz')
 
 #%%
 def cut_sents(surf_sents,lemm_sents):
