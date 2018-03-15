@@ -3,3 +3,6 @@ Lazy frequency
 10 fichiers 2 minutes
 100 fichiers 6 minutes
 500 fichiers 20 minutes
+
+Bi-grammes
+1 fichier: 3 minutes
