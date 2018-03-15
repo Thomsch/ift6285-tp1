@@ -20,9 +20,6 @@ import regex as re
 import spacy
 import textacy
 
-os.chdir("C:/Users/Thomas/Documents/UDEM/ift6285-tp1")
-print(os.getcwd())
-
 '''
 Load text in a string.
 '''
