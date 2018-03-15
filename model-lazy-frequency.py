@@ -1,6 +1,7 @@
 import loader
 import metric
 import timeit
+import time
 
 
 def most_frequent_word(word_dict):
@@ -49,6 +50,7 @@ def predict(original_lemmatized_sentences, lemma_to_surface):
     return translated_sentences
 
 
+print("Started at {}\n".format(time.strftime("%d-%m-%Y %H:%M:%S")))
 start_time = timeit.default_timer()
 lemmatized_sentences, surface_sentences = loader.load("data/train")
 lemma_to_surface = train(lemmatized_sentences, surface_sentences)
