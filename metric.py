@@ -37,9 +37,7 @@ def sentence_accuracy(reference_sentence, translated_sentence):
     return correct / total
 
 
-def display_result(test_name, sentences_number, accuracy_score):
-    print(test_name)
-    print("=========================")
-    print("# sentence: {}".format(sentences_number))
-    print("Exactitude: {}".format(accuracy_score))
+def display_result(sentences_number, accuracy_score):
+    print("Prediction (using {} sentences)".format(sentences_number))
+    print("- Exactitude: {}".format(accuracy_score))
     print()

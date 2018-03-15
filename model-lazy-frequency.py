@@ -2,8 +2,6 @@ import loader
 import metric
 import timeit
 
-NUMBER_OF_FILES = 10
-
 
 def most_frequent_word(word_dict):
     most_freq_word = ""
@@ -52,19 +50,20 @@ def predict(original_lemmatized_sentences, lemma_to_surface):
 
 
 start_time = timeit.default_timer()
-lemmatized_sentences, surface_sentences = loader.load("data/train", NUMBER_OF_FILES)
+lemmatized_sentences, surface_sentences = loader.load("data/train")
 lemma_to_surface = train(lemmatized_sentences, surface_sentences)
 elapsed_time = timeit.default_timer() - start_time
 
-print("Elapsed time {}".format(elapsed_time))
-print("Number of tokens {}".format(len(lemma_to_surface)))
-print("Number of sentences {}".format(len(lemmatized_sentences)))
+print("Training (using {} sentences)".format(len(lemmatized_sentences)))
+print("- Elapsed time {}".format(elapsed_time))
+print()
 
-original_lemmatized_sentences, target_sentences = loader.load("data/dev", 1)
+original_lemmatized_sentences, target_sentences = loader.load("data/test")
+
 translated_sentences = predict(original_lemmatized_sentences, lemma_to_surface)
 
 accuracy = metric.accuracy(target_sentences, translated_sentences)
-metric.display_result("Map model", len(target_sentences), accuracy)
+metric.display_result(len(target_sentences), accuracy)
 
 print(translated_sentences[6])
 print(target_sentences[6])
