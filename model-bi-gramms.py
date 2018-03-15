@@ -60,8 +60,8 @@ def loadData2str(corpuspath):
             target_words.append(target_word)
     return ' '.join(input_words),' '.join(target_words)
 
-train_lemm_corpus,train_surf_corpus=loadData2str('data/train-1183.gz')
-test_lemm_corpus,test_surf_corpus=loadData2str('data/test-2834.gz')
+train_lemm_corpus,train_surf_corpus=loadData2str('data/train/train-1183.gz')
+test_lemm_corpus,test_surf_corpus=loadData2str('data/test/test-2834.gz')
 
 train_lemm_corpus=re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus=re.sub(' +', ' ', train_surf_corpus)
