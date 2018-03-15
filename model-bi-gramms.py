@@ -16,52 +16,58 @@ from collections import Counter
 import regex as re
 import spacy
 import textacy
+import loader
 
 
 def loadData2str(corpuspath):
     """
     Load text in a string.
     """
+    file_paths = loader.list_files(corpuspath)
 
-    with gzip.open(corpuspath, 'rt', encoding='ISO-8859-1') as f:
-        lines = f.read().split('\n')
     input_words = []
     target_words = []
-    for line in lines:
-        if line.startswith('#begin') or line.startswith('#end'):
-            continue
-        line = line.encode("ascii", errors="ignore").decode()
-        if len(line.split('\t')) == 2:
-            target_word, input_word = line.split('\t')
-            input_word = input_word.lower().strip()
-            target_word = target_word.lower().strip()
-            pattern = re.compile(r'\'')
-            input_word = re.sub(pattern, '', input_word)
-            target_word = re.sub(pattern, '', target_word)
 
-            input_word = re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ", input_word)
-            target_word = re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ", target_word)
+    for file_path in file_paths:
+        with gzip.open(file_path, 'rt', encoding='ISO-8859-1') as f:
+            lines = f.read().split('\n')
 
-            pattern = re.compile(r'\d+s')
-            m1 = re.search(pattern, input_word)
-            m2 = re.search(pattern, target_word)
-            if m2 is not None and m1 is None:
-                input_word = re.sub('(\d+)', r"\1s", input_word)
-
-            input_word = re.sub('(\d+)', r" \1 ", input_word)
-            target_word = re.sub('(\d+)', r" \1 ", target_word)
-
-            input_word = re.sub(' +', ' ', input_word)
-            target_word = re.sub(' +', ' ', target_word)
-            if input_word == '':
+        for line in lines:
+            if line.startswith('#begin') or line.startswith('#end'):
                 continue
-            input_words.append(input_word)
-            target_words.append(target_word)
+            line = line.encode("ascii", errors="ignore").decode()
+            if len(line.split('\t')) == 2:
+                target_word, input_word = line.split('\t')
+                input_word = input_word.lower().strip()
+                target_word = target_word.lower().strip()
+                pattern = re.compile(r'\'')
+                input_word = re.sub(pattern, '', input_word)
+                target_word = re.sub(pattern, '', target_word)
+
+                input_word = re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ", input_word)
+                target_word = re.sub("([\?\!\~\&\=\[\]\{\}\<\>\(\)\_\-\+\/\.])", r" \1 ", target_word)
+
+                pattern = re.compile(r'\d+s')
+                m1 = re.search(pattern, input_word)
+                m2 = re.search(pattern, target_word)
+                if m2 is not None and m1 is None:
+                    input_word = re.sub('(\d+)', r"\1s", input_word)
+
+                input_word = re.sub('(\d+)', r" \1 ", input_word)
+                target_word = re.sub('(\d+)', r" \1 ", target_word)
+
+                input_word = re.sub(' +', ' ', input_word)
+                target_word = re.sub(' +', ' ', target_word)
+                if input_word == '':
+                    continue
+                input_words.append(input_word)
+                target_words.append(target_word)
+
     return ' '.join(input_words), ' '.join(target_words)
 
 
-train_lemm_corpus, train_surf_corpus = loadData2str('data/train/train-1183.gz')
-test_lemm_corpus, test_surf_corpus = loadData2str('data/test/test-2834.gz')
+train_lemm_corpus, train_surf_corpus = loadData2str('data/train')
+test_lemm_corpus, test_surf_corpus = loadData2str('data/test')
 
 train_lemm_corpus = re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus = re.sub(' +', ' ', train_surf_corpus)
