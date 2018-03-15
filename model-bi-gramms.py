@@ -68,6 +68,7 @@ def load_data(folder):
     return ' '.join(input_words), ' '.join(target_words)
 
 
+print("{} Loading data...".format(time.strftime("%d-%m-%Y %H:%M:%S")))
 train_lemm_corpus, train_surf_corpus = load_data('data/train')
 test_lemm_corpus, test_surf_corpus = load_data('data/test')
 train_lemm_corpus = re.sub(' +', ' ', train_lemm_corpus)
@@ -82,6 +83,8 @@ Get 2-gramms model, all types, all sentences of train_surface set.
 Get all types, all sentences of test_lemme set.
 Get all types, all sentences of test_surface set.
 '''
+
+print("{} Training model...".format(time.strftime("%d-%m-%Y %H:%M:%S")))
 start_time = time.time()
 
 nlp = spacy.load('en', disable=['parser', 'tagger'])
