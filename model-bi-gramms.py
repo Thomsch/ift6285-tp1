@@ -36,8 +36,10 @@ def loadData2str(corpuspath):
             if line.startswith('#begin') or line.startswith('#end'):
                 continue
             line = line.encode("ascii", errors="ignore").decode()
-            if len(line.split('\t')) == 2:
-                target_word, input_word = line.split('\t')
+
+            split_result = line.split('\t')
+            if len(split_result) == 2:
+                target_word, input_word = split_result
                 input_word = input_word.lower().strip()
                 target_word = target_word.lower().strip()
                 pattern = re.compile(r'\'')
@@ -68,7 +70,6 @@ def loadData2str(corpuspath):
 
 train_lemm_corpus, train_surf_corpus = loadData2str('data/train')
 test_lemm_corpus, test_surf_corpus = loadData2str('data/test')
-
 train_lemm_corpus = re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus = re.sub(' +', ' ', train_surf_corpus)
 test_lemm_corpus = re.sub(' +', ' ', test_lemm_corpus)
