@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# %%
 from __future__ import print_function
 
 from keras.models import Model
@@ -9,16 +8,15 @@ from keras.layers import Input, LSTM, Dense
 import numpy as np
 import gzip
 
-batch_size = 128  # Batch size for training.
-epochs = 2  # Number of epochs to train for.
+
+batch_size = 64  # Batch size for training.
+epochs = 100  # Number of epochs to train for.
 latent_dim = 256  # Latent dimensionality of the encoding space.
 num_samples = 10000  # Number of samples to train on.
-# Path to the data txt file on disk.
 
 import os
-
-os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/ift6285-tp1")
-# os.chdir("/Users/fanxiao/Google Drive/UdeM/IFT6135 Representation Learning/homework1/programming part ")
+os.chdir("/content/drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1/ift6285-tp1")
+# os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1")
 print(os.getcwd())
 
 # %%
@@ -53,6 +51,7 @@ def loadData(corpuspath, size=None):
                 target_texts.append('\t' + ''.join(target_phrase) + '\n')
                 input_phrase = []
                 target_phrase = []
+                i += 1
 
             for char in input_word:
                 if char not in input_characters:
@@ -60,36 +59,22 @@ def loadData(corpuspath, size=None):
             for char in target_word:
                 if char not in target_characters:
                     target_characters.add(char)
-            i += 1
-            if size is not None and i > size:
-                break
+            if size is not None and i > size: break
 
     return input_texts, target_texts
 
 
-input_texts, target_texts = loadData('data/train-1544.gz', 5000)
+input_texts, target_texts = loadData('data/train-1544.gz', 6000)
 size_train = len(input_texts)
-test_input_texts, test_target_texts = loadData('data/test-2834.gz', 2000)
+test_input_texts, test_target_texts = loadData('data/test-2834.gz', 500)
 size_test = len(test_input_texts)
 
 input_texts = np.array(input_texts)
 target_texts = np.array(target_texts)
-# np.random.seed(456)
-# indexs = np.arange(0,len(input_texts))
-# np.random.shuffle(indexs)
-# input_texts = input_texts[indexs[0:size_train]]
-# target_texts=target_texts[indexs[0:size_train]]
 
 test_input_texts = np.array(test_input_texts)
 test_target_texts = np.array(test_target_texts)
 
-# input_texts,target_texts: list of phrases
-# input_token_index: key-values of char
-# encoder_input_data:3dimension, d1=phrase,d2=char index in phrase,d3=index of list of candidate chars
-print(input_texts[0:2])
-print(target_texts[0:2])
-
-# %%
 input_characters.add(' ')
 target_characters.add(' ')
 target_characters.add('\t')
@@ -113,9 +98,6 @@ input_token_index = dict(
     [(char, i) for i, char in enumerate(input_characters)])
 target_token_index = dict(
     [(char, i) for i, char in enumerate(target_characters)])
-
-# print(input_token_index)
-# print(target_token_index)
 
 encoder_input_data = np.zeros(
     (len(input_texts), max_encoder_seq_length, num_encoder_tokens),
@@ -159,7 +141,8 @@ decoder_outputs = decoder_dense(decoder_outputs)
 # Define the model that will turn
 model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-# %%
+
+#%%
 # Run training
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
@@ -171,18 +154,8 @@ model.fit([encoder_input_data, decoder_input_data], decoder_target_data,
 
 print(os.getcwd())
 from keras.models import load_model
-
-model.save('model1-lstm-4016samples-100epochs.h5')
+model.save('output-lsmtm/model1-lstm-4800samples-100epochs.h5')
 # del model  # deletes the existing model
-
-# Save model
-# from keras.models import load_model
-# model.save('model1-lstm-4016samples-100epochs.h5')
-# model.save('model1-lstm-4016samples-100epochs.h5')
-# model = load_model('my_model.h5')
-
-# model.save_weights('my_model_weights.h5')
-# model.load_weights('my_model_weights.h5')
 
 
 # %%
@@ -253,10 +226,66 @@ def decode_sequence(input_seq):
 
     return decoded_sentence
 
+#%%
+print('-------predict train data:')
+for seq_index in range(20):
+    # Take one sequence (part of the training set)
+    # for trying out decoding.
+    input_seq = encoder_input_data[seq_index: seq_index + 1]
+    decoded_sentence = decode_sequence(input_seq)
+    print('-')
+    print('Input sentence:', input_texts[seq_index])
+    print('Decoded sentence:', decoded_sentence)
 
-'''
-Functions of Evalutate the prediction
-'''
+# print(os.getcwd())
+# from keras.models import load_model
+# model=load_model('output-lstm/model1-lstm-4016samples-100epochs.h5')
+
+test_encoder_input_data = np.zeros(
+    (len(test_input_texts), max_encoder_seq_length, num_encoder_tokens),
+    dtype='float32')
+test_decoder_input_data = np.zeros(
+    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
+    dtype='float32')
+test_decoder_target_data = np.zeros(
+    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
+    dtype='float32')
+
+
+for i, (test_input_text, test_target_text) in enumerate(zip(test_input_texts, test_target_texts)):
+    for t, char in enumerate(test_input_text):
+        test_encoder_input_data[i, t, input_token_index[char]] = 1.
+    for t, char in enumerate(test_target_text):
+        # decoder_target_data is ahead of decoder_input_data by one timestep
+        test_decoder_input_data[i, t, target_token_index[char]] = 1.
+        if t > 0:
+            # decoder_target_data will be ahead by one timestep
+            # and will not include the start character.
+            test_decoder_target_data[i, t - 1, target_token_index[char]] = 1.
+
+print('-----predict test data:')
+test_pred_sents=[]
+for seq_index in range(200):
+    # Take one sequence (part of the training set)
+    # for trying out decoding.
+    input_seq = test_encoder_input_data[seq_index: seq_index + 1]
+    decoded_sentence = decode_sequence(input_seq)
+    print('-- No. ',seq_index)
+    print('Input test sentence:', test_input_texts[seq_index])
+    print('Decoded test sentence:', decoded_sentence)
+    test_pred_sents.append(decoded_sentence)
+
+dec_texts = []
+with open('output-lstm/prediction200.txt', 'rt', encoding='ISO-8859-1') as f:
+  lines = f.read().split('\n')
+for line in lines:
+  if line.startswith('Decoded test sentence:'):
+    dec_texts.append(line[24:])
+i=0
+for dec1,dec2 in zip(dec_texts,test_target_texts):
+  print (i,'predict: ',dec1)
+  print (i,'surface: ',dec2[2:])
+  i+=1
 
 
 def count_accuracy(pred_sents, target_sents):
@@ -271,65 +300,5 @@ def count_accuracy(pred_sents, target_sents):
                 count_accu += 1
     return count_accu, total
 
-
-# %%
-# print(os.getcwd())
-# from keras.models import load_model
-# model=load_model('output-lstm/model1-lstm-4016samples-100epochs.h5')
-
-
-# %%
-print('-------predict train data:')
-train_pred_sents = []
-for seq_index in range(500):
-    # Take one sequence (part of the training set)
-    # for trying out decoding.
-    input_seq = encoder_input_data[seq_index: seq_index + 1]
-    decoded_sentence = decode_sequence(input_seq)
-    print('-- No. ', seq_index)
-    print('Input sentence:', input_texts[seq_index])
-    print('Decoded sentence:', decoded_sentence)
-    train_pred_sents.append(decoded_sentence)
-
-train_acc_count, count_total = count_accuracy(train_pred_sents, input_texts)
-print('Accuracy on LSTM1 predicteur, train data:', train_acc_count, '/', count_total, '=',
-      train_acc_count / count_total)
-
-# %%
-print('-----predict test data:')
-
-test_encoder_input_data = np.zeros(
-    (len(test_input_texts), max_encoder_seq_length, num_encoder_tokens),
-    dtype='float32')
-test_decoder_input_data = np.zeros(
-    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
-    dtype='float32')
-test_decoder_target_data = np.zeros(
-    (len(test_input_texts), max_decoder_seq_length, num_decoder_tokens),
-    dtype='float32')
-
-for i, (test_input_text, test_target_text) in enumerate(zip(test_input_texts, test_target_texts)):
-    for t, char in enumerate(test_input_text):
-        test_encoder_input_data[i, t, input_token_index[char]] = 1.
-    for t, char in enumerate(test_target_text):
-        # decoder_target_data is ahead of decoder_input_data by one timestep
-        test_decoder_input_data[i, t, target_token_index[char]] = 1.
-        if t > 0:
-            # decoder_target_data will be ahead by one timestep
-            # and will not include the start character.
-            test_decoder_target_data[i, t - 1, target_token_index[char]] = 1.
-
-test_pred_sents = []
-for seq_index in range(500):
-    # Take one sequence (part of the training set)
-    # for trying out decoding.
-    input_seq = test_encoder_input_data[seq_index: seq_index + 1]
-    decoded_sentence = decode_sequence(input_seq)
-    print('-- No. ', seq_index)
-    print('Input test lemm sentence:', test_input_texts[seq_index])
-    print('Input test surf sentence:', test_input_texts[seq_index])
-    print('Prediction test sentence:', decoded_sentence)
-    test_pred_sents.append(decoded_sentence)
-
-test_acc_count, count_total = count_accuracy(test_pred_sents, test_target_texts)
+test_acc_count, count_total = count_accuracy(dec_texts, test_target_texts)
 print('Accuracy on LSTM1 predicteur, test data:', test_acc_count, '/', count_total, '=', test_acc_count / count_total)
