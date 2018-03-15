@@ -19,11 +19,11 @@ import textacy
 import loader
 
 
-def loadData2str(corpuspath):
+def load_data(folder):
     """
     Load text in a string.
     """
-    file_paths = loader.list_files(corpuspath)
+    file_paths = loader.list_files(folder)
 
     input_words = []
     target_words = []
@@ -68,8 +68,8 @@ def loadData2str(corpuspath):
     return ' '.join(input_words), ' '.join(target_words)
 
 
-train_lemm_corpus, train_surf_corpus = loadData2str('data/train')
-test_lemm_corpus, test_surf_corpus = loadData2str('data/test')
+train_lemm_corpus, train_surf_corpus = load_data('data/train')
+test_lemm_corpus, test_surf_corpus = load_data('data/test')
 train_lemm_corpus = re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus = re.sub(' +', ' ', train_surf_corpus)
 test_lemm_corpus = re.sub(' +', ' ', test_lemm_corpus)
