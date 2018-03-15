@@ -2,7 +2,7 @@
 Premier travail pratique du cours IFT 6285 donné par Philippe Langlais à la session d'hiver 2018.
 - Ennoncé: http://www-labs.iro.umontreal.ca/~felipe/IFT6285-Hiver2018/frontal.php?page=devoir1.html
 
-Nous comparons plusieurs types de modèles pour résoudre ce problème. Le rapport est disponible à https://www.overleaf.com/13937336hbhkcjcxpfgg.
+Nous comparons plusieurs types de modèles pour résoudre ce problème. Le rapport est disponible à https://www.overleaf.com/read/szdkwqxgsnmw.
 
 ## Getting started
 ### Prérequis
