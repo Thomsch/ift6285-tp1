@@ -5,7 +5,7 @@
 # model-hmm.py
 # @author Zhibin.LU
 # @created Fri Feb 23 2018 17:14:32 GMT-0500 (EST)
-# @last-modified Wed Mar 14 2018 18:56:28 GMT-0400 (EDT)
+# @last-modified Thu Mar 15 2018 12:01:46 GMT-0400 (EDT)
 # @website: https://louis-udm.github.io
 # # # #
 
@@ -147,18 +147,24 @@ def cut_sents(surf_sents,lemm_sents):
 
         surf_sents_cut.append(' '.join(surf_sent_cut))
         lemm_sents_cut.append(' '.join(lemm_sent_cut))
-        surf_cut_tokens_save.append(surf_cut_tokens_save)
-        lemm_cut_tokens_save.append(lemm_cut_tokens_save)
+        surf_cut_tokens_save.append(surf_cut_tokens)
+        lemm_cut_tokens_save.append(lemm_cut_tokens)
 
     return surf_sents_cut,lemm_sents_cut,surf_cut_tokens_save,lemm_cut_tokens_save
 
+# Use cut sentences
 train_surf_sents_cut,train_lemm_sents_cut,train_surf_cut_tokens_save,train_lemm_cut_tokens_save=cut_sents(train_target_sents,train_input_sents)
 test_surf_sents_cut,test_lemm_sents_cut,test_surf_cut_tokens_save,test_lemm_cut_tokens_save=cut_sents(test_target_sents,test_input_sents)
-
 train_lemm_corpus=' '.join(train_lemm_sents_cut)
 train_surf_corpus=' '.join(train_surf_sents_cut)
 test_lemm_corpus=' '.join(test_lemm_sents_cut)
 test_surf_corpus=' '.join(test_surf_sents_cut)
+
+# Use sentences original
+# train_lemm_corpus=' '.join(train_input_sents)
+# train_surf_corpus=' '.join(train_target_sents)
+# test_lemm_corpus=' '.join(test_input_sents)
+# test_surf_corpus=' '.join(test_target_sents)
 
 train_lemm_corpus=re.sub(' +', ' ', train_lemm_corpus)
 train_surf_corpus=re.sub(' +', ' ', train_surf_corpus)
@@ -377,6 +383,18 @@ def count_accuracy(pred_sents,target_sents):
                 count_accu+=1
     return count_accu, total
 
+def count_accuracy_from_logfile(pred_sents,target_sents):
+    count_accu=0
+    total=0
+    for pred_sent,target_sent in zip(pred_sents,target_sents):
+        pred_list=re.split(r" ",pred_sent)
+        garget_list=re.split(r" ",target_sent)
+        for pred_token,target_token in zip(pred_list,garget_list):
+            total+=1
+            if pred_token==target_token:
+                count_accu+=1
+    return count_accu, total
+
 def decode_sents(vectors,type_list):
     sents=[]
     for v in vectors:
@@ -510,6 +528,7 @@ states=sorted(list( train_surf_1grams_bag.keys() ))
 states_map=dict(
     [(typex, i) for i, typex in enumerate(states)])
 n_states=len(states)
+print('Total of states:',n_states)
 
 # observations=sorted(list( train_lemm_1grams_bag.keys() | test_lemm_1grams_bag.keys() ))
 observations=sorted(list( train_lemm_1grams_bag.keys() ))
@@ -567,7 +586,7 @@ for i,prob in enumerate(transition_probability.sum(1)):
     if prob==0: 
         transition_probability[i]+=1.0/n_states
 '''
-# Laplace smooth probablity:
+# Laplace probablity smooth:
 '''
 transition_probability+=1.0/n_states
 transition_probability/=2.0
@@ -587,7 +606,7 @@ for k,v in train_surf_lemm_map.items():
     emission_probability[states_map[type_s],observations_map[type_o]]=prob
 
 '''
-# Laplace smooth probablity:
+# Laplace probablity smooth:
 '''
 emission_probability+=1.0/n_observations
 emission_probability/=2.0
@@ -686,20 +705,35 @@ end_time=time.time()
 print('The HMM took a total of %.3f minutes to do training and prediction.' % ((end_time-start_time)/60))
 
 #%%
-# Use log file to calculate accuracy
-# sents_a=[]
-# sents_b=[]
-# with open('output-hmm/hmm-prediction.txt', 'rt') as f:
+# calcule accuracy with those mots cuts.
+count_cuts=0
+for i in range(len(hmm_pred_sents)):
+    count_cuts+=len(train_surf_cut_tokens_save[i])
+hmm_acc_count2=hmm_acc_count+count_cuts
+count_total2=count_total+count_cuts
+print('Accuracy on HMM predicteur after add cuted words:', hmm_acc_count2,'/', count_total2,'=',hmm_acc_count2/count_total2)
+
+
+#%%
+# #Use a exist log file to calculate accuracy
+# sents_surf=[]
+# sents_pred=[]
+# with open('output/output-HMM-lissage-cut-sentence-predictions.txt', 'rt') as f:
 #     lines=f.readlines()
 # i=0
 # sents=iter(lines)
 # for line in sents:
 #     if line.startswith('-- No.'):
 #         i+=len(next(sents))
-#         sents_a.append(next(sents))
-#         sents_b.append(next(sents))
-
-# from metric import *
-# hmm_acc=accuracy(sents_b,sents_a)
-# # taux_accu=accuracy(test_surf_tacy_sents_raw, hmm_pred_sents)
-# print('Accuracy on HMM predicteur:',hmm_acc, 'total words:',i)
+#         sents_surf.append(next(sents))
+#         sents_pred.append(next(sents))
+        
+# hmm_acc_count,count_total=count_accuracy_from_logfile(sents_pred,sents_surf)
+# print('Accuracy on HMM predicteur:', hmm_acc_count,'/', count_total,'=',hmm_acc_count/count_total)
+# # calcule accuracy with those mots cuts.
+# count_cuts=0
+# for i in range(len(sents_pred)):
+#     count_cuts+=len(train_surf_cut_tokens_save[i])
+# hmm_acc_count2=hmm_acc_count+count_cuts
+# count_total2=count_total+count_cuts
+# print('Accuracy on HMM predicteur after add cuted words:', hmm_acc_count2,'/', count_total2,'=',hmm_acc_count2/count_total2)

@@ -275,5 +275,13 @@ the , saying that name commanded a many adorned only of develops .
 
 
 -----------
-Accuracy on HMM predicteur: 0.736572112937044 total words: 17799
-it spend 4h for 338 sentences,total words: 17799.
+Accuracy on HMM predicteur: 0.736572112937044 
+it spend 4h for 338 sentences.
+
+max_lemm_sent: 59
+Total of states: 16200
+Accuracy on HMM predicteur: 2528 / 3539 = 0.7143260808137892
+it spend 4h for 338 sentences.
+
+
+Accuracy on HMM predicteur after add cuted words: 7776 / 8787 = 0.8849436667804712
