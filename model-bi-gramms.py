@@ -11,24 +11,16 @@
 
 #%%
 
-import time
-import os
-import random
-import matplotlib
-import matplotlib.pyplot as plt
 import gzip
-
-import numpy as np
-from hmmlearn import hmm
-import spacy
-import textacy
-import regex as re
+import os
+import time
 from collections import Counter
 
-from spacy.tokenizer import Tokenizer
-from spacy.lang.en import English
+import regex as re
+import spacy
+import textacy
 
-os.chdir("/Users/louis/Google Drive/M.Sc-DIRO-UdeM/IFT6285-Traitements automatique des langues naturelles/TP1/ift6285-tp1")
+os.chdir("C:/Users/Thomas/Documents/UDEM/ift6285-tp1")
 print(os.getcwd())
 
 '''
@@ -88,8 +80,7 @@ Get all types, all sentences of test_surface set.
 '''
 start_time=time.time()
  
-# alternative for parse: nlp = spacy.load('en', disable=['parser', 'tagger'])
-nlp = English()
+nlp = spacy.load('en', disable=['parser', 'tagger'])
 train_lemm_tacy_doc=nlp(train_lemm_corpus)
 train_surf_tacy_doc=nlp(train_surf_corpus)
 test_lemm_tacy_doc =nlp(test_lemm_corpus)
@@ -406,7 +397,6 @@ print('The Bi-grammes took a total of %.3f minutes to do training and prediction
 '''
 # Part-of-speech tagging
 '''
-from spacy.pipeline import Tagger
 # alternative for parse:nlp = spacy.load('en', disable=['parser', 'tagger']),tagger = Tagger(nlp.vocab)
 nlp2 = spacy.load('en')
 
